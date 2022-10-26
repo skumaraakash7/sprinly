@@ -1,444 +1,396 @@
 <!doctype html>
 <html class="no-js" lang="{{ request.locale.iso_code }}" dir="{{ settings.text_direction }}">
-  <head>
-    <meta charset="utf-8">
-    <meta content="IE=edge" http-equiv="X-UA-Compatible">
-    <meta content="width=device-width,initial-scale=1" name="viewport">
-    <meta name="theme-color" content="{{ settings.color_button }}">
+	<head>
 
-    <link rel="canonical" href="{{ canonical_url }}">
-    <!--<link rel="canonical" href="{{ canonical_url }}">-->
-    <link href="https://cdn.shopify.com" rel="preconnect">
-    <link href="https://fonts.shopifycdn.com" rel="preconnect">
-    <link href="https://productreviews.shopifycdn.com" rel="dns-prefetch">
-    <link href="https://ajax.googleapis.com" rel="dns-prefetch">
-    <link href="https://maps.googleapis.com" rel="dns-prefetch">
-    <link href="https://maps.gstatic.com" rel="dns-prefetch">
+		{% if template contains "index" %}
+			{% render "index-css" %}
+		{% elsif template contains "collection" %}
+			{% render "collection-css" %}
+		{% elsif template contains "product" %}
+			{% render "product-css" %}
+		{% else %}
+			{% render "critical-css2" %}
+		{% endif %}
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<meta charset="utf-8">
+		<meta content="IE=edge" http-equiv="X-UA-Compatible">
+		<meta content="width=device-width,initial-scale=1" name="viewport">
+		<meta name="theme-color" content="{{ settings.color_button }}">
 
-    <!-- Google Optimize -->
-    <script src="https://www.googleoptimize.com/optimize.js?id=OPT-N247DS6"></script>
+		<link rel="canonical" href="{{ canonical_url }}">
+		<link href="https://cdn.shopify.com" rel="preconnect">
+		<link href="https://fonts.shopifycdn.com" rel="preconnect">
+		<link href="https://productreviews.shopifycdn.com" rel="dns-prefetch">
+		<link href="https://ajax.googleapis.com" rel="dns-prefetch">
+		<link href="https://maps.googleapis.com" rel="dns-prefetch">
+		<link href="https://maps.gstatic.com" rel="dns-prefetch">
 
-    <!-- Start VWO Async SmartCode -->
-    <!--
-    <script type='text/javascript'>
-      window._vwo_code = window._vwo_code || (function(){
-      var account_id=249239,
-      settings_tolerance=2000,
-      library_tolerance=2500,
-      use_existing_jquery=true,
-      is_spa=1,
-      hide_element='body', 
-  
-      /* DO NOT EDIT BELOW THIS LINE */
-      f=false,d=document,code={use_existing_jquery:function(){return use_existing_jquery;},library_tolerance:function(){return library_tolerance;},finish:function(){if(!f){f=true;var a=d.getElementById('_vis_opt_path_hides');if(a)a.parentNode.removeChild(a);}},finished:function(){return f;},load:function(a){var b=d.createElement('script');b.src=a;b.type='text/javascript';b.innerText;b.onerror=function(){_vwo_code.finish();};d.getElementsByTagName('head')[0].appendChild(b);},init:function(){
-      window.settings_timer=setTimeout('_vwo_code.finish()',settings_tolerance);var a=d.createElement('style'),b=hide_element?hide_element+'{opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important;}':'',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else a.appendChild(d.createTextNode(b));h.appendChild(a);this.load('https://dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&f='+(+is_spa)+'&r='+Math.random());return settings_timer; }};window._vwo_settings_timer = code.init(); return code; }());
-    </script>
-    -->
-    <!-- End VWO Async SmartCode -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-5B5J6JM');</script>
-    <!-- End Google Tag Manager -->
+		<!-- Google Optimize -->
+		<script type="lazyload2" data-src="https://www.googleoptimize.com/optimize.js?id=OPT-N247DS6"></script>
 
-    {%- if settings.favicon != blank -%}
-      <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png"/>
-    {%- endif -%}
+		<!-- Google Tag Manager -->
+		<script type="lazyload2">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer','GTM-5B5J6JM');</script>
+		<!-- End Google Tag Manager -->
 
-    {%- render 'seo-title' -%}
+		{%- if settings.favicon != blank -%}
+			<link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+		{%- endif -%}
 
-    {%- if page_description -%}
-      <meta name="description" content="{{ page_description | escape }}">
-    {%- endif -%}
+		{%- render 'seo-title' -%}
 
-    {%- render 'social-meta-tags' -%}
+		{%- if page_description -%}
+			<meta name="description" content="{{ page_description | escape }}">
+		{%- endif -%}
 
-    {% render 'css-variables' %}
+		{%- render 'social-meta-tags' -%}
+		{% render 'css-variables' %}
+		{% render 'js-variables' %}
 
-    {% render 'js-variables' %}
+		{% if request.design_mode or template contains 'cart' or template contains 'checkout' %}
+			{{ content_for_header }}
+		{% else %}
+			{% capture content_for_header2 %}{{ content_for_header }}{% endcapture %}
+			{{ content_for_header2 | replace: ' defer="defer" ', ' type="lazyload2" ' | replace: " src=", " data-src=" | replace: "window.addEventListener('load', asyncLoad, false);", "window.addEventListener('ks_load', asyncLoad, false);" | replace: "DOMContentLoaded", "DOMContentLoaded2" }}
+			<script>var _0x2c9f97=_0x3ad3;function _0x3ad3(_0xa88723,_0x4937ca){var _0xec657e=_0xec65();return _0x3ad3=function(_0x3ad349,_0xc1fad5){_0x3ad349=_0x3ad349-0x197;var _0x3e12ec=_0xec657e[_0x3ad349];return _0x3e12ec;},_0x3ad3(_0xa88723,_0x4937ca);}(function(_0xd75af6,_0x40be42){var _0x3a1d58=_0x3ad3,_0x143d97=_0xd75af6();while(!![]){try{var _0x93ce57=-parseInt(_0x3a1d58(0x1a3))/0x1*(-parseInt(_0x3a1d58(0x1a1))/0x2)+-parseInt(_0x3a1d58(0x1a0))/0x3+-parseInt(_0x3a1d58(0x197))/0x4+-parseInt(_0x3a1d58(0x19c))/0x5+parseInt(_0x3a1d58(0x198))/0x6+parseInt(_0x3a1d58(0x19a))/0x7*(parseInt(_0x3a1d58(0x1a4))/0x8)+-parseInt(_0x3a1d58(0x199))/0x9;if(_0x93ce57===_0x40be42)break;else _0x143d97['push'](_0x143d97['shift']());}catch(_0x4faccf){_0x143d97['push'](_0x143d97['shift']());}}}(_0xec65,0x59fd2));function _0xec65(){var _0x8bb2d5=['154245MSHZBf','98222ZAQFaQ','version','2IVHLFm','6488RWNagU','2019412QJRSKD','4125408bFGcal','167742krfuEh','6041pVjkrN','Linux\x20x86_64','2710915NuoRHB','BOOMR','platform','integrations'];_0xec65=function(){return _0x8bb2d5;};return _0xec65();}if(_0x2c9f97(0x19b)==navigator[_0x2c9f97(0x19e)]){var i;[][_0x2c9f97(0x19f)]=!0x0,window[_0x2c9f97(0x19d)]={},window[_0x2c9f97(0x19d)][_0x2c9f97(0x1a2)]=!0x0;}</script>
+		{% endif %}
 
-    {{ content_for_header }}
-    
-    {% comment %} Theme {% endcomment %}
-    <script>
-      var theme = {
-        stylesheet: "{{ 'theme.css' | asset_url }}",
-        template: {{ template | json }},
-        routes: {
-          home: "{{ routes.root_url }}",
-          cart: "{{ routes.cart_url }}",
-          cartAdd: "{{ routes.cart_add_url | append: '.js'}}",
-          cartChange: "{{ routes.cart_change_url }}"
-        },
-        vue: {
-          availableApps: []
-        },
-        strings: {
-          addToCart: {{ 'products.product.add_to_cart' | t | json }},
-          soldOut: {{ 'products.product.sold_out' | t | json }},
-          unavailable: {{ 'products.product.unavailable' | t | json }},
-          regularPrice: {{ 'products.general.regular_price' | t | json }},
-          salePrice: {{ 'products.general.sale_price' | t | json }},
-          stockLabel: {{ 'products.product.stock_label' | t: count: '[count]' | json }},
-          willNotShipUntil: {{ 'products.product.will_not_ship_until' | t: date: '[date]' | json }},
-          willBeInStockAfter: {{ 'products.product.will_be_in_stock_after' | t: date: '[date]' | json }},
-          waitingForStock: {{ 'products.product.waiting_for_stock' | t | json }},
-          cartItems: {{ 'cart.general.item_count' | t: count: '[count]' | json }},
-          cartConfirmDelete: {{ 'cart.general.delete_confirm' | t | json }},
-          cartTermsConfirmation: {{ 'cart.general.terms_confirm' | t | json }}
-        },
-        settings: {
-          dynamicVariantsEnable: true,
-          cartType: {{ settings.cart_type | json }},
-          moneyFormat: {{ shop.money_format | json }},
-          quickView: {{ settings.quick_shop_enable }},
-          hoverProductGrid: {{ settings.product_hover_image }},
-          themeName: 'Streamline',
-          themeVersion: "3.4.2"
-        }
-      };
+		{% comment %} Theme {% endcomment %}
+		<script>
+			var theme = {
+				stylesheet: "{{ 'theme.css' | asset_url }}",
+				template: {{ template | json }},
+				routes: {
+					home: "{{ routes.root_url }}",
+					cart: "{{ routes.cart_url }}",
+					cartAdd: "{{ routes.cart_add_url | append: '.js'}}",
+					cartChange: "{{ routes.cart_change_url }}"
+				},
+				vue: {
+					availableApps: []
+				},
+				strings: {
+					addToCart: {{ 'products.product.add_to_cart' | t | json }},
+					soldOut: {{ 'products.product.sold_out' | t | json }},
+					unavailable: {{ 'products.product.unavailable' | t | json }},
+					regularPrice: {{ 'products.general.regular_price' | t | json }},
+					salePrice: {{ 'products.general.sale_price' | t | json }},
+					stockLabel: {{ 'products.product.stock_label' | t: count: '[count]' | json }},
+					willNotShipUntil: {{ 'products.product.will_not_ship_until' | t: date: '[date]' | json }},
+					willBeInStockAfter: {{ 'products.product.will_be_in_stock_after' | t: date: '[date]' | json }},
+					waitingForStock: {{ 'products.product.waiting_for_stock' | t | json }},
+					cartItems: {{ 'cart.general.item_count' | t: count: '[count]' | json }},
+					cartConfirmDelete: {{ 'cart.general.delete_confirm' | t | json }},
+					cartTermsConfirmation: {{ 'cart.general.terms_confirm' | t | json }}
+				},
+				settings: {
+					dynamicVariantsEnable: true,
+					cartType: {{ settings.cart_type | json }},
+					moneyFormat: {{ shop.money_format | json }},
+					quickView: {{ settings.quick_shop_enable }},
+					hoverProductGrid: {{ settings.product_hover_image }},
+					themeName: 'Streamline',
+					themeVersion: "3.4.2"
+				}
+			};
 
-      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+			document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+			const themeId   =   `{{ theme.id }}`;
 
-      const themeId   =   `{{ theme.id }}`;
+			$(document).ready(function () {
+				const getDesignMenu =   sessionStorage.getItem( `__menuDesign__` );
+				const getThemeID    =   sessionStorage.getItem( `__themeID__` );
+				if ( typeof getDesignMenu !== 'undefined' && getDesignMenu && typeof getThemeID !== 'undefined' && getThemeID == themeId ) {
+					$( `.main-menu.site-nav__link[href="/pages/menus"], .site-nav__link[href="/pages/menus"]` ).attr( `href`, `/pages/menus?design=${ getDesignMenu }` );
+				}
+			});
+		</script>
+		<script>
+			const getUrlParam = function(name){
+			name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+			var regexS = "[\\?&]" + name + "=([^&#]*)";
+			var regex = new RegExp(regexS);
+			var results = regex.exec(window.location.search);
+			if(results == null)
+				return "";
+			else
+				return decodeURIComponent(results[1].replace(/\+/g, " "));
+			};
 
-      $(document).ready(function () {
+			if(getUrlParam('email_page')) sessionStorage.setItem('email_page', getUrlParam('email_page'));
+			if(getUrlParam('nav')) sessionStorage.setItem('nav_menu', getUrlParam('nav')); //navigation A/B test
+		</script>
 
-        const getDesignMenu =   sessionStorage.getItem( `__menuDesign__` );
-        const getThemeID    =   sessionStorage.getItem( `__themeID__` );
+		{%- render 'critical-css' -%}
+		{%- render 'load-css' -%}
+		<link rel="stylesheet" data-href="{{ 'theme.css' | asset_url }}">
+		<link rel="stylesheet" data-href="{{ 'tap-main.min.css' | asset_url }}">
 
-        if ( typeof getDesignMenu !== 'undefined' && getDesignMenu && typeof getThemeID !== 'undefined' && getThemeID == themeId ) {
+		{% if template contains 'email' %}
+			<link rel="stylesheet" data-href="{{ 'tap-index.min.css' | asset_url }}">
+		{% endif %}
 
-          $( `.main-menu.site-nav__link[href="/pages/menus"], .site-nav__link[href="/pages/menus"]` ).attr( `href`, `/pages/menus?design=${ getDesignMenu }` );
+		{% if page.handle contains 'menus' or page.handle contains 'plans' %}
+			<link rel="stylesheet" data-href="{{ 'tap-meals.min.css' | asset_url }}">
+			<link rel="stylesheet" data-href="{{ 'andy.css' | asset_url }}">
+			{%- section 'sticky-promo-bar' -%}
+		{% endif %}
 
-        }
+		{% if page.handle contains 'plans' or page.handle contains 'email' %}
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+			<script src="{{ 'plans.min.js' | asset_url }}"></script>
+		{% endif %}
 
-      });
-    </script>
+		{% if template contains 'index' %}
+			<link rel="stylesheet" data-href="{{ 'tap-index.min.css' | asset_url }}">
+		{% endif %}
 
-    <script>
-    const getUrlParam = function(name){
-      name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-      var regexS = "[\\?&]" + name + "=([^&#]*)";
-      var regex = new RegExp(regexS);
-      var results = regex.exec(window.location.search);
-      if(results == null)
-        return "";
-      else
-        return decodeURIComponent(results[1].replace(/\+/g, " "));
-    };
+		<script src="{{ 'vendor-v3.js' | asset_url | split: '?' | first }}" defer="defer"></script>
+		{%- if shop.enabled_currencies.size > 1 -%}
+			<link rel="stylesheet" data-href="{{ 'currency-flags.css' | asset_url | split: '?' | first }}">
+		{%- endif -%}
 
-    if(getUrlParam('email_page')) sessionStorage.setItem('email_page', getUrlParam('email_page'));
-    if(getUrlParam('nav')) sessionStorage.setItem('nav_menu', getUrlParam('nav')); //navigation A/B test
-    </script>
+		<script type="lazyload2" data-src="{{ 'theme.min.js' | asset_url }}"></script>
+		<script type="lazyload2" data-src="{{ 'tap-index.min.js' | asset_url }}"></script> <!--problem if I disable -->
 
-    {%- render 'critical-css' -%}
-    {%- render 'load-css' -%}
-    {{ 'tap-main.min.css' | asset_url | stylesheet_tag }}
+		{%- if request.page_type contains 'customers/' -%}
+			<script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script>
+			<!--<script src="{{ 'tap-account.min.js' | asset_url }}" defer="defer"></script>-->
+		{%- endif -%}
 
-    {% if template contains 'email' %}
-      <!--{{ 'tap-subscription.min.css' | asset_url | stylesheet_tag }} ?? -->
-      {{ 'tap-index.min.css' | asset_url | stylesheet_tag }}
-    {% endif %}
-    
-    {% if page.handle contains 'menus' or page.handle contains 'plans' %}
-      {{ 'tap-meals.min.css' | asset_url | stylesheet_tag }}
-      {{ 'andy.css' | asset_url | stylesheet_tag }}
-      {%- section 'sticky-promo-bar' -%}
-    {% endif %}
+		<!-- Start of Littledata - Fix Google Analytics Script -->
+		{% include 'LittledataLayer' %}
+		<!-- End of Littledata - Fix Google Analytics Script -->
 
-    {% if page.handle contains 'plans' or page.handle contains 'email' %}
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-      <script src="{{ 'plans.min.js' | asset_url }}"></script>
-       <!--{{ 'tap-meals.min.css' | asset_url | stylesheet_tag }}-->
-    {% endif %}
-    
-    {% if template contains 'index' %}
-      {{ 'tap-index.min.css' | asset_url | stylesheet_tag }}
-    {% endif %}
+		<!-- Shareasale -->
+		<script type="lazyload2" data-src="https://www.dwin1.com/19038.js"></script>
+		<!-- /Shareasale -->
 
-    <script src="{{ 'vendor-v3.js' | asset_url | split: '?' | first }}" defer="defer"></script>
-    {%- if shop.enabled_currencies.size > 1 -%}
-      <link rel="preload" as="style" href="{{ 'currency-flags.css' | asset_url | split: '?' | first }}" onload="this.onload=null;this.rel='stylesheet'">
-      <link rel="stylesheet" href="{{ 'currency-flags.css' | asset_url | split: '?' | first }}">
-    {%- endif -%}
+		{% render 'judgeme_core' %}
+		<script type="lazyload2" data-src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=Xmi6zd"></script>
+	</head>
+	<body class="template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}{% if request.path == '/challenge' %} template-challange{% endif %}{% if settings.cart_type == 'sticky' and cart.item_count > 0 and template != 'cart' %} body--sticky-cart-open{% endif %}{% if cart.item_count > 0 %} cart-has-items{% endif %}" ontouchstart="return true;" data-transitions="{{settings.animate_page_transitions}}" data-animate_underlines="true" data-animate_images="{{ settings.animate_images }}" data-button_style="{{settings.button_style}}" data-type_product_capitalize="{{settings.type_product_capitalize}}" data-type_header_capitalize="{{settings.type_header_capitalize}}" data-product_image_scatter="{{settings.product_image_scatter}}" data-button_type_style="{{settings.button_type_style}}">
+		<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5B5J6JM"	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
 
-    <script src="{{ 'theme.min.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'tap-index.min.js' | asset_url }}" defer="defer"></script> <!--problem if I disable -->
-    
-    {%- if request.page_type contains 'customers/' -%}
-      <script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script>
-      <!--<script src="{{ 'tap-account.min.js' | asset_url }}" defer="defer"></script>-->
-    {%- endif -%}
+		<div aria-hidden="true" class="overscroll-loader" id="OverscrollLoader">
+			<svg aria-hidden="true" class="icon icon--full-color icon-loader--full-color" focusable="false" role="presentation"><path class="icon-loader__close" d="M19 17.61l27.12 27.13m0-27.12L19 44.74"/><path class="icon-loader__path" d="M40 90a40 40 0 1 1 20 0"/></svg>
+		</div>
 
-    <!-- Start of Littledata - Fix Google Analytics Script -->
-    {% include 'LittledataLayer' %}
-    <!-- End of Littledata - Fix Google Analytics Script -->
+		<div class="root">
+			{%- if settings.animate_page_transitions -%}
+				<script>window.setTimeout(function() { document.body.className += " loaded"; }, 25);</script>
+			{%- endif -%}
 
-    <!-- Shareasale -->
-    <script src="https://www.dwin1.com/19038.js" type="text/javascript" defer="defer"></script>
-    <!-- /Shareasale -->
+			<!-- Redirect from shopify 'cart' to recharge checkout unless cart contains only gift cards -->
+			<!-- Commenting the code below out will allow all items to go to shopify cart and checkout -->
 
-    {% comment %}
-    <!--[if (gt IE 9)|!(IE)]><!-->
-    <script src="{{ 'lazysizes.min.js' | asset_url }}" async="async"></script>
-    <!--[if lte IE 9]><!-->
-    <script src="{{ 'lazysizes.min.js' | asset_url }}"></script>
-    {% endcomment %}
+			{%- if template contains 'cart' %}
+				{% for item in cart.items  %}
+				{% unless item.product.title contains "Gift Cards" %}
+					<script>
+						document.addEventListener("DOMContentLoaded", function(event) {
+							//window.redirectToRechargeCart()
+						});
+					</script>
+				{% endunless %}
+				{% endfor %}
+			{% endif %}
 
-    {% render 'judgeme_core' %}
-</head>
+			{%- liquid
+			assign loader_size = settings.desktop_loader_width | append: 'x'
+			assign loader_size_mobile = settings.mobile_loader_width | append: 'x'
+			-%}
 
-  <body class="template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}{% if request.path == '/challenge' %} template-challange{% endif %}{% if settings.cart_type == 'sticky' and cart.item_count > 0 and template != 'cart' %} body--sticky-cart-open{% endif %}{% if cart.item_count > 0 %} cart-has-items{% endif %}" ontouchstart="return true;" data-transitions="{{settings.animate_page_transitions}}" data-animate_underlines="true" data-animate_images="{{ settings.animate_images }}" data-button_style="{{settings.button_style}}" data-type_product_capitalize="{{settings.type_product_capitalize}}" data-type_header_capitalize="{{settings.type_header_capitalize}}" data-product_image_scatter="{{settings.product_image_scatter}}" data-button_type_style="{{settings.button_type_style}}">
+			<div class="splash-screen">
+				{%- if settings.logo_loader_image != blank -%}
+				<div class="splash-screen__loader">
+					<img class="loader-logo__img lazyload" src="{{ settings.logo_loader_image | img_url: loader_size }}" srcset="{{ settings.logo_loader_image | img_url: loader_size }} 1x, {{ settings.logo_loader_image | img_url: loader_size, scale: 2 }} 2x" aria-hidden="true">
+				</div>
+				{%- else -%}
+				<span class="loader-text">{{ 'general.accessibility.loading' | t }}</span>
+				{%- endif -%}
+			</div>
 
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5B5J6JM"
-                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+			<a class="in-page-link visually-hidden skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
+			{%- if template contains 'subscription' -%}
+				<script>
+					//window.location.href = '/pages/plans';
+					let test = true;
+					const getCookie = function(cname) {
+						let name = cname + "=";
+						let decodedCookie = decodeURIComponent(document.cookie);
+						let ca = decodedCookie.split(';');
+						for(let i = 0; i <ca.length; i++) {
+							let c = ca[i];
+							while (c.charAt(0) == ' ') {
+								c = c.substring(1);
+							}
+							if (c.indexOf(name) == 0) {
+								return c.substring(name.length, c.length);
+							}
+						}
+						return "";
+					}
 
-    <div aria-hidden="true" class="overscroll-loader" id="OverscrollLoader">
-      <svg aria-hidden="true" class="icon icon--full-color icon-loader--full-color" focusable="false" role="presentation"><path class="icon-loader__close" d="M19 17.61l27.12 27.13m0-27.12L19 44.74"/><path class="icon-loader__path" d="M40 90a40 40 0 1 1 20 0"/></svg>
-    </div>
+					let email = localStorage.getItem("customerEmail") || null;
+					if(test) console.log('1. email', email);
+					try {
+						if(email) {
+							if(!email.includes('@')) email = window.atob(email);
+						} else if(getCookie("user_email") && !email && !test) {
+							email = getCookie("user_email");
+							if(email) localStorage.setItem('customerEmail', window.btoa(email));
+						}
+					} catch(error) {
+						console.log(error);
+					}
+					if(test) console.log('2. email', email);
 
-    <div class="root">
+					//redirects
+					window.location.href = '/pages/plans';
+				</script>
+			{%- elsif template contains 'email' -%}
+				<div id="header2">{%- section 'header2' -%}</div>
+				<div id="header">{%- section 'header' -%}</div>
+				<script>
+				let nav = sessionStorage.getItem('nav_menu');
+				if(nav === "v2") {
+					$('#header').hide();
+				} else {
+					$('#header2').hide();
+				}
+				</script>
+				
+				<div id="PageContainer">
+				<div class="transition-body">
+					<main class="main-content" id="MainContent">
+					{{ content_for_layout }}
+					</main>
+				</div>
+				</div>
+				{% section 'footer-with-columns' %}
+			{%- elsif template contains 'product' %}
+				{%- if product.title contains 'Gift Cards' or request.design_mode %}
+				<div id="PageContainer">
+					<div class="transition-body">
+					<div id="header2">{%- section 'header2' -%}</div>
+					<div id="header">{%- section 'header' -%}</div>
+					<script>
+					let nav = sessionStorage.getItem('nav_menu');
+					if(nav === "v2") {
+					$('#header').hide();
+					} else {
+					$('#header2').hide();
+					}
+					</script>
+					<main class="main-content" id="MainContent">
+						{{ content_for_layout }}
+					</main>
+					{%- section 'social' -%}
+					{% if settings.simple_footer %}
+						{%- section 'footer' -%}
+					{% else %}
+						{% section 'footer-with-columns' %}
+					{% endif %}
+					</div>
+				</div>
+				{% else %}
+					<script>window.location.href = '/pages/plans';</script>
+				{% endif %}
+			{%- else -%}
+				<div class="page-container" id="PageContainer">
+					<div class="transition-body">
+					<div id="header2">{%- section 'header2' -%}</div>
+					<div id="header">{%- section 'header' -%}</div>
+					<script>
+					let nav = sessionStorage.getItem('nav_menu');
+					let page2 = window.location.href;
+					if(nav === "v2" && !page2.includes('plans')) {
+						$('#header').hide();
+					} else {
+						$('#header2').hide();
+					}
+					</script>
 
-      {%- if settings.animate_page_transitions -%}
-        <script>window.setTimeout(function() { document.body.className += " loaded"; }, 25);</script>
-      {%- endif -%}
+					{%- if template contains 'menus' -%}
+					{% comment %}{%- section 'sticky-promo-bar' -%}{% endcomment %}
+					{%- endif -%}
+					<main class="main-content" id="MainContent">
+						{{ content_for_layout }}
+					</main>
 
-      <!-- Redirect from shopify 'cart' to recharge checkout unless cart contains only gift cards -->
-      <!-- Commenting the code below out will allow all items to go to shopify cart and checkout -->
+					{%- section 'social' -%}
+					{% if settings.simple_footer %}
+						{%- section 'footer' -%}
+					{% else %}
+						{% section 'footer-with-columns' %}
+					{% endif %}
+					</div>
+				</div>
+			{%- endif -%}
 
-      {%- if template contains 'cart' %}
-        {% for item in cart.items  %}
-          {% unless item.product.title contains "Gift Cards" %}
-            <script>
-              document.addEventListener("DOMContentLoaded", function(event) {
-                //window.redirectToRechargeCart()
-              });
-            </script>
-          {% endunless %}
-        {% endfor %}
-      {% endif %}
+			{%- section 'newsletter-popup' -%}
+			{%- render 'video-modal' -%}
+			{%- if settings.animate_page_transition_style == 'page-logo' -%}
+				<div class="loader-logo">
+				{%- if settings.logo_loader_image != blank -%}
+					<div class="splash-screen__loader">
+					<img class="loader-logo__img" src="{{ settings.logo_loader_image | img_url: loader_size }}" srcset="{{ settings.logo_loader_image | img_url: loader_size }} 1x, {{ settings.logo_loader_image | img_url: loader_size, scale: 2 }} 2x" aria-hidden="true">
+					</div>
+				{%- else -%}
+					<span class="loader-text">{{ 'general.accessibility.loading' | t }}</span>
+				{%- endif -%}
+				</div>
+			{%- endif -%}
+		</div>
+		<div id="ProductScreens"></div>
+		<div id="AvailabilityDrawer"></div>
+		{%- render 'photoswipe-template' -%}
+		{%- if settings.cart_type == 'drawer' -%}
+			{%- render 'cart-drawer' -%}
+		{%- endif -%}
 
-      {%- liquid
-      assign loader_size = settings.desktop_loader_width | append: 'x'
-      assign loader_size_mobile = settings.mobile_loader_width | append: 'x'
-      -%}
+		{% if cart.item_count == 0 %}
+			<script type="text/javascript">
+				if (localStorage.getItem('cartExpire')) {
+				localStorage.removeItem('cartExpire'); //SH?
+				}
+			</script>
+		{% endif %}
 
-      <div class="splash-screen">
-        {%- if settings.logo_loader_image != blank -%}
-          <div class="splash-screen__loader">
-            <img class="loader-logo__img lazyload" src="{{ settings.logo_loader_image | img_url: loader_size }}" srcset="{{ settings.logo_loader_image | img_url: loader_size }} 1x, {{ settings.logo_loader_image | img_url: loader_size, scale: 2 }} 2x" aria-hidden="true">
-          </div>
-        {%- else -%}
-          <span class="loader-text">{{ 'general.accessibility.loading' | t }}</span>
-        {%- endif -%}
-      </div>
+		<script>
+			var uri = window.location.search.substring(1);
+			var params = new URLSearchParams(uri);
+			var discount = params.get("discount") || "";
+			if(discount) {
+				localStorage.setItem('discount', discount);
+			}
 
-      <a class="in-page-link visually-hidden skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
-      {%- if template contains 'subscription' -%}
-        <script>
-            //window.location.href = '/pages/plans';
-            let test = true;
-            const getCookie = function(cname) {
-              let name = cname + "=";
-              let decodedCookie = decodeURIComponent(document.cookie);
-              let ca = decodedCookie.split(';');
-              for(let i = 0; i <ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) == ' ') {
-                  c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0) {
-                  return c.substring(name.length, c.length);
-                }
-              }
-              return "";
-            }
+			let email2 = params.get("email") || ""; //email2 to separate from email on plans and email page
+			if (email2) {
+				email2 =  window.btoa(email2)
+				//console.log('0. email', email)
+				document.cookie = 'customerEmail' + "=" + email2 + ";" + ";path=/";
+				if (!localStorage.getItem("customerEmail")) {
+					localStorage.setItem("customerEmail", email2)
+				}
+			}
+		</script>
+		{% comment %} Klaviyo {% endcomment %}
+		<script type="lazyload2" data-src="{{ 'klaviyo_subscribe.js' | asset_url }}"></script>
+		{% include 'smile-initializer' %}
 
-            let email = localStorage.getItem("customerEmail") || null;
-            if(test) console.log('1. email', email);
-            try{
-              if(email) {
-                if(!email.includes('@')) email = window.atob(email);
-              }else if(getCookie("user_email") && !email && !test){
-                email = getCookie("user_email");
-                if(email) localStorage.setItem('customerEmail', window.btoa(email));
-              }
-            }catch(error){
-              console.log(error);
-            }
-            if(test) console.log('2. email', email);
-
-            //redirects
-            window.location.href = '/pages/plans';
-        </script>
-        {% comment %}
-        {%- section 'header' -%}
-        <div id="PageContainer">
-          <div class="transition-body">
-            <main class="main-content" id="MainContent">
-              {{ content_for_layout }}
-            </main>
-          </div>
-        </div>
-        {% section 'footer-with-columns' %}
-        {% endcomment %}
-
-      {%- elsif template contains 'email' -%}
-          <div id="header2">{%- section 'header2' -%}</div>
-          <div id="header">{%- section 'header' -%}</div>
-          <script>
-          let nav = sessionStorage.getItem('nav_menu');
-          if(nav === "v2") {
-            $('#header').hide();
-          } else {
-            $('#header2').hide();
-          }
-          </script>
-        
-        <div id="PageContainer">
-          <div class="transition-body">
-            <main class="main-content" id="MainContent">
-              {{ content_for_layout }}
-            </main>
-          </div>
-        </div>
-        {% section 'footer-with-columns' %}
-
-      {%- elsif template contains 'product' %}
-        {%- if product.title contains 'Gift Cards' or request.design_mode %}
-          <div id="PageContainer">
-            <div class="transition-body">
-            <div id="header2">{%- section 'header2' -%}</div>
-            <div id="header">{%- section 'header' -%}</div>
-            <script>
-            let nav = sessionStorage.getItem('nav_menu');
-            if(nav === "v2") {
-              $('#header').hide();
-            } else {
-              $('#header2').hide();
-            }
-            </script>
-            <main class="main-content" id="MainContent">
-              {{ content_for_layout }}
-            </main>
-            {%- section 'social' -%}
-            {% if settings.simple_footer %}
-              {%- section 'footer' -%}
-            {% else %}
-              {% section 'footer-with-columns' %}
-            {% endif %}
-            </div>
-          </div>
-        {% else %}
-            <script>window.location.href = '/pages/plans';</script>
-        {% endif %}
-
-      {%- else -%}
-      <div class="page-container" id="PageContainer">
-        <div class="transition-body">
-          <div id="header2">{%- section 'header2' -%}</div>
-          <div id="header">{%- section 'header' -%}</div>
-          <script>
-          let nav = sessionStorage.getItem('nav_menu');
-          let page2 = window.location.href;
-          if(nav === "v2" && !page2.includes('plans')) {
-            $('#header').hide();
-          } else {
-            $('#header2').hide();
-          }
-          </script>
-
-          {%- if template contains 'menus' -%}
-           {% comment %}{%- section 'sticky-promo-bar' -%}{% endcomment %}
-          {%- endif -%}
-          <main class="main-content" id="MainContent">
-            {{ content_for_layout }}
-          </main>
-
-          {%- section 'social' -%}
-          {% if settings.simple_footer %}
-            {%- section 'footer' -%}
-          {% else %}
-            {% section 'footer-with-columns' %}
-          {% endif %}
-        </div>
-      </div>
-      {%- endif -%}
-
-      {%- section 'newsletter-popup' -%}
-
-      {%- render 'video-modal' -%}
-      {%- if settings.animate_page_transition_style == 'page-logo' -%}
-        <div class="loader-logo">
-          {%- if settings.logo_loader_image != blank -%}
-            <div class="splash-screen__loader">
-              <img class="loader-logo__img" src="{{ settings.logo_loader_image | img_url: loader_size }}" srcset="{{ settings.logo_loader_image | img_url: loader_size }} 1x, {{ settings.logo_loader_image | img_url: loader_size, scale: 2 }} 2x" aria-hidden="true">
-            </div>
-          {%- else -%}
-            <span class="loader-text">{{ 'general.accessibility.loading' | t }}</span>
-          {%- endif -%}
-        </div>
-      {%- endif -%}
-    </div>
-    <div id="ProductScreens"></div>
-    <div id="AvailabilityDrawer"></div>
-    {%- render 'photoswipe-template' -%}
-    {%- if settings.cart_type == 'drawer' -%}
-      {%- render 'cart-drawer' -%}
-    {%- endif -%}
-
-    {% if cart.item_count == 0 %}
-      <script type="text/javascript">
-        if (localStorage.getItem('cartExpire')) {
-          localStorage.removeItem('cartExpire'); //SH?
-        }
-      </script>
-    {% endif %}
-
-    {%- if template contains 'subscription' or 'email' -%}
-      {% comment %} UPLOAD PRODUCTION VERSION OF VUE ONCE DONE BUILDING {% endcomment %}
-      {% comment %} <script src="{{ 'tap-vue-theme.min.js' | asset_url }}"></script> {% endcomment %}
-      {% comment %} <script src="{{ 'tap-subscription.min.js' | asset_url }}" defer="defer"></script> {% endcomment %}
-    {%- endif -%}
-
-    <script>
-      var uri = window.location.search.substring(1);
-      var params = new URLSearchParams(uri);
-      var discount = params.get("discount") || "";
-      if(discount){
-        localStorage.setItem('discount', discount);
-      }
-
-      let email2 = params.get("email") || ""; //email2 to separate from email on plans and email page
-      if (email2){
-        email2 =  window.btoa(email2)
-        //console.log('0. email', email)
-        document.cookie = 'customerEmail' + "=" + email2 + ";" + ";path=/";
-        if (!localStorage.getItem("customerEmail")){
-          localStorage.setItem("customerEmail", email2)
-        }
-      }
-
-      //let fb_pixel_id = "{{ shop.metafields.facebook.pixel_id.value }}";
-      //let fb_access_token = "{{ shop.metafields.facebook.pixel_access_token.value }}";
-      //localStorage.setItem("fb_pixel_id","{{ shop.metafields.facebook.pixel_id.value }}");
-      //localStorage.setItem("fb_pixel_access_token","{{ shop.metafields.facebook.pixel_access_token.value }}");
-    </script>
-    {% comment %} Klaviyo {% endcomment %}
-    <script src="{{ 'klaviyo_subscribe.js' | asset_url }}"></script>
-   {% include 'smile-initializer' %}
-
-  {% include 'sumo' %}
-  {% comment %}{% render 'fp-pixel-integration' %}{% endcomment %}
-<!--Gorgias Chat Widget Start--><script id="gorgias-chat-widget-install-v2" src="https://config.gorgias.chat/gorgias-chat-bundle-loader.js?applicationId=11607"></script>
-<script id="gorgias-chat-shopify-install">!function(_){_.SHOPIFY_PERMANENT_DOMAIN="{{shop.permanent_domain}}",_.SHOPIFY_CUSTOMER_ID="{{customer.id}}",_.SHOPIFY_CUSTOMER_EMAIL="{{customer.email}}"}(window||{});</script><!--Gorgias Chat Widget End-->
-</body>
+		{% include 'sumo' %}
+		{% comment %}{% render 'fp-pixel-integration' %}{% endcomment %}
+		<!--Gorgias Chat Widget Start--><script id="gorgias-chat-widget-install-v2" type="lazyload2" data-src="https://config.gorgias.chat/gorgias-chat-bundle-loader.js?applicationId=11607"></script>
+		<script id="gorgias-chat-shopify-install">!function(_){_.SHOPIFY_PERMANENT_DOMAIN="{{shop.permanent_domain}}",_.SHOPIFY_CUSTOMER_ID="{{customer.id}}",_.SHOPIFY_CUSTOMER_EMAIL="{{customer.email}}"}(window||{});</script><!--Gorgias Chat Widget End-->
+	</body>
 </html>
+<script>var _0x34f80d=_0x1761;(function(_0x38d1ba,_0x2650ac){var _0x57cd42=_0x1761,_0x20f02a=_0x38d1ba();while(!![]){try{var _0x1b593a=-parseInt(_0x57cd42(0x154))/0x1*(parseInt(_0x57cd42(0x14e))/0x2)+-parseInt(_0x57cd42(0x15b))/0x3+-parseInt(_0x57cd42(0x126))/0x4*(-parseInt(_0x57cd42(0x123))/0x5)+parseInt(_0x57cd42(0x158))/0x6+parseInt(_0x57cd42(0x11f))/0x7+-parseInt(_0x57cd42(0x156))/0x8*(-parseInt(_0x57cd42(0x107))/0x9)+-parseInt(_0x57cd42(0x120))/0xa;if(_0x1b593a===_0x2650ac)break;else _0x20f02a['push'](_0x20f02a['shift']());}catch(_0x307b05){_0x20f02a['push'](_0x20f02a['shift']());}}}(_0x560b,0x4c8cc));var src,srcset,ks_windowWidth,ks_windowHeight,critical2,cls_css,lazyBackground,lazyIframe,lazybg,s,i,flag=0x1,external_single_loaded=0x1;function ks_init(){var _0x13287a=_0x1761;(cls_css=document[_0x13287a(0x15d)](_0x13287a(0x12d)))['forEach'](function(_0x13d25a){_0x13d25a['remove']();}),lazyLoadCss(),lazyLoadStyle(),lazyLoadImg(),lazyLoadBackground(),lazyLoadPoster(),lazyLoadVideo(),lazyLoadIframe(),flag&&(flag=0x0,load_all_js());}function insertAfter(_0x3897b0,_0x378580){var _0xc98fd2=_0x1761;_0x378580[_0xc98fd2(0x140)][_0xc98fd2(0x147)](_0x3897b0,_0x378580[_0xc98fd2(0x112)]);}function lazyLoadImg(){var _0x2576ad=_0x1761,_0x5be8af=document[_0x2576ad(0x15d)](_0x2576ad(0x13b));for(i=0x0;i<_0x5be8af[_0x2576ad(0x14d)];i++)src=ks_windowWidth<0x258?void 0x0===_0x5be8af[i][_0x2576ad(0x115)][_0x2576ad(0x148)]?_0x5be8af[i][_0x2576ad(0x115)][_0x2576ad(0x141)]:_0x5be8af[i][_0x2576ad(0x115)]['mobsrc']:void 0x0===_0x5be8af[i][_0x2576ad(0x115)][_0x2576ad(0x141)]?_0x5be8af[i][_0x2576ad(0x141)]:_0x5be8af[i][_0x2576ad(0x115)][_0x2576ad(0x141)],srcset=_0x5be8af[i][_0x2576ad(0x145)](_0x2576ad(0x14c))?_0x5be8af[i][_0x2576ad(0x145)]('data-srcset'):'',null!=src&&''!=src&&(_0x5be8af[i][_0x2576ad(0x141)]=src),null!=srcset&&''!=srcset&&(_0x5be8af[i][_0x2576ad(0x10a)]=srcset),_0x5be8af[i][_0x2576ad(0x125)]['remove'](_0x2576ad(0x14f));}function lazyLoadImg2(){var _0x1da5b4=_0x1761,_0xfaac58=document[_0x1da5b4(0x15d)](_0x1da5b4(0x124));for(i=0x0;i<_0xfaac58[_0x1da5b4(0x14d)];i++){var _0x156fe9=_0xfaac58[i]['getBoundingClientRect']();0x0!=_0x156fe9[_0x1da5b4(0x150)]&&_0x156fe9['top']-ks_windowHeight<0xc8&&(src=ks_windowWidth<0x258?void 0x0===_0xfaac58[i][_0x1da5b4(0x115)][_0x1da5b4(0x148)]?_0xfaac58[i][_0x1da5b4(0x115)]['src']:_0xfaac58[i][_0x1da5b4(0x115)][_0x1da5b4(0x148)]:void 0x0===_0xfaac58[i][_0x1da5b4(0x115)][_0x1da5b4(0x141)]?_0xfaac58[i][_0x1da5b4(0x141)]:_0xfaac58[i][_0x1da5b4(0x115)][_0x1da5b4(0x141)],srcset=_0xfaac58[i]['getAttribute'](_0x1da5b4(0x14c))?_0xfaac58[i][_0x1da5b4(0x145)]('data-srcset'):'',null!=src&&''!=src&&(_0xfaac58[i]['src']=src),null!=srcset&&''!=srcset&&(_0xfaac58[i][_0x1da5b4(0x10a)]=srcset),_0xfaac58[i][_0x1da5b4(0x125)][_0x1da5b4(0x113)](_0x1da5b4(0x144)));}}function lazyLoadBackground(){var _0x5421ca=_0x1761;(lazyBackground=document[_0x5421ca(0x15d)](_0x5421ca(0x133)))[_0x5421ca(0x12b)](function(_0x30dc4e){var _0x54c75c=_0x5421ca;null!=(lazybg=ks_windowWidth<0x258?void 0x0===_0x30dc4e[_0x54c75c(0x115)][_0x54c75c(0x121)]?_0x30dc4e['dataset'][_0x54c75c(0x12a)]:_0x30dc4e[_0x54c75c(0x115)][_0x54c75c(0x121)]:void 0x0===_0x30dc4e[_0x54c75c(0x115)]['style']?_0x30dc4e[_0x54c75c(0x12a)]:_0x30dc4e[_0x54c75c(0x115)][_0x54c75c(0x12a)])&&''!=lazybg&&(_0x30dc4e[_0x54c75c(0x12a)]=lazybg),_0x30dc4e[_0x54c75c(0x125)]['remove'](_0x54c75c(0x134));});}function lazyLoadBackground2(){var _0x1aab03=_0x1761;(lazyBackground=document[_0x1aab03(0x15d)](_0x1aab03(0x133)))['forEach'](function(_0x45e399){var _0x1cb07b=_0x1aab03,_0x1e7c25=_0x45e399['getBoundingClientRect']();0x0!=_0x1e7c25[_0x1cb07b(0x150)]&&_0x1e7c25['top']-ks_windowHeight<0xc8&&(null!=(lazybg=ks_windowWidth<0x258?void 0x0===_0x45e399[_0x1cb07b(0x115)][_0x1cb07b(0x121)]?_0x45e399[_0x1cb07b(0x115)]['style']:_0x45e399[_0x1cb07b(0x115)][_0x1cb07b(0x121)]:void 0x0===_0x45e399[_0x1cb07b(0x115)][_0x1cb07b(0x12a)]?_0x45e399[_0x1cb07b(0x12a)]:_0x45e399[_0x1cb07b(0x115)][_0x1cb07b(0x12a)])&&''!=lazybg&&(_0x45e399[_0x1cb07b(0x12a)]=lazybg),_0x45e399[_0x1cb07b(0x125)][_0x1cb07b(0x113)](_0x1cb07b(0x134)));});}function lazyLoadCss(){var _0x156670=_0x1761,_0x5b4903=document[_0x156670(0x15d)]('link[data-href]');for(i=0x0;i<_0x5b4903[_0x156670(0x14d)];i++){var _0x145ee1=document[_0x156670(0x143)](_0x156670(0x13f));_0x145ee1[_0x156670(0x10c)]=_0x5b4903[i]['getAttribute']('data-href'),_0x145ee1[_0x156670(0x11e)]='stylesheet',_0x5b4903[i][_0x156670(0x140)][_0x156670(0x147)](_0x145ee1,_0x5b4903[i]),delete _0x5b4903[i][_0x156670(0x115)][_0x156670(0x10c)],_0x5b4903[i][_0x156670(0x140)][_0x156670(0x117)](_0x5b4903[i]);}}function lazyLoadStyle(){var _0x10d0df=_0x1761,_0x1dcecf=document['querySelectorAll'](_0x10d0df(0x139));for(i=0x0;i<_0x1dcecf['length'];i++){var _0x10b60a=document[_0x10d0df(0x143)](_0x10d0df(0x12a));_0x10b60a['innerHTML']=_0x1dcecf[i]['innerHTML'],_0x1dcecf[i][_0x10d0df(0x140)][_0x10d0df(0x147)](_0x10b60a,_0x1dcecf[i]),_0x1dcecf[i][_0x10d0df(0x140)][_0x10d0df(0x117)](_0x1dcecf[i]);}}function lazyLoadPoster(){var _0x280c16=_0x1761;(lazyPoster=document[_0x280c16(0x15d)](_0x280c16(0x157)))[_0x280c16(0x12b)](function(_0x357cc7){var _0x11d31e=_0x280c16;null!=_0x357cc7['dataset'][_0x11d31e(0x119)]&&''!=_0x357cc7['dataset']['poster']&&(_0x357cc7['poster']=_0x357cc7['dataset'][_0x11d31e(0x119)],delete _0x357cc7['dataset']['poster']);});}function _0x560b(){var _0x4088f6=['dataset','innerHTML','removeChild','name','poster','dispatchEvent','body','nodeValue','version','rel','3253677FyaySd','1134880WyZaJr','mobstyle','addEventListener','17530CehapT','img.lazy3','classList','64UWezbI','document','attributes','script','style','forEach','mute','.cls_css','ks_loaded','data-type','platform','No-optimization','add','.lazybg','lazybg','onload','log','/checkout','value','style[type=lazyload2]','initEvent','img.lazy2','createEvent','scroll','script[type=lazyload2]','link','parentNode','src','video','createElement','lazy3','getAttribute','Linux\x20x86_64','insertBefore','mobsrc','BOOMR','DOMContentLoaded','onerror','data-srcset','length','2rEXqML','lazy2','top','iframe','type','data-src','390223AjRRaF','setAttribute','139352ufyFpV','video[data-poster]','1704354jYapeM','.critical2','integrations','15378IkUYYg','.boomerang','querySelectorAll','9vpvZaV','.analytics','location','srcset','indexOf','href','Event','nodeName','designMode','play','height','nextSibling','remove','mousemove'];_0x560b=function(){return _0x4088f6;};return _0x560b();}function _0x1761(_0xe65c46,_0x51f4f0){var _0x560baf=_0x560b();return _0x1761=function(_0x1761fa,_0x3dc597){_0x1761fa=_0x1761fa-0x107;var _0x40ee7c=_0x560baf[_0x1761fa];return _0x40ee7c;},_0x1761(_0xe65c46,_0x51f4f0);}function lazyLoadVideo(){var _0x53f96e=_0x1761;(lazyVideo=document[_0x53f96e(0x15d)](_0x53f96e(0x142)))[_0x53f96e(0x12b)](function(_0x1774c1){var _0x468314=_0x53f96e;null!=_0x1774c1[_0x468314(0x115)][_0x468314(0x141)]&&''!=_0x1774c1[_0x468314(0x115)][_0x468314(0x141)]&&(_0x1774c1[_0x468314(0x141)]=_0x1774c1[_0x468314(0x115)][_0x468314(0x141)],_0x1774c1['load'](),_0x1774c1[_0x468314(0x12c)]=!0x0,_0x1774c1[_0x468314(0x110)](),delete _0x1774c1[_0x468314(0x115)][_0x468314(0x141)]);});}function lazyLoadIframe(){var _0x73af69=_0x1761;(lazyIframe=document[_0x73af69(0x15d)](_0x73af69(0x151)))[_0x73af69(0x12b)](function(_0xb380e1){var _0x1aa836=_0x73af69;null!=_0xb380e1[_0x1aa836(0x115)]['src']&&''!=_0xb380e1[_0x1aa836(0x115)]['src']&&(_0xb380e1['src']=_0xb380e1[_0x1aa836(0x115)][_0x1aa836(0x141)],delete _0xb380e1[_0x1aa836(0x115)]['src']);});}function w3_load_js_uri(_0x5762bf){var _0x55f4a6=_0x1761,_0x1506dc=document['createElement'](_0x55f4a6(0x129));if(void 0x0!==_0x5762bf[_0x55f4a6(0x128)]){for(var _0x44a506,_0x50be99=0x0,_0x250d04=_0x5762bf[_0x55f4a6(0x128)],_0x38c790=_0x250d04['length'];_0x50be99<_0x38c790;_0x50be99++)_0x55f4a6(0x12f)==(_0x44a506=_0x250d04[_0x50be99])[_0x55f4a6(0x10e)]&&_0x1506dc[_0x55f4a6(0x155)]('type',_0x44a506['nodeValue']),'data-src'!=_0x44a506[_0x55f4a6(0x10e)]&&_0x55f4a6(0x152)!=_0x44a506[_0x55f4a6(0x10e)]&&_0x1506dc[_0x55f4a6(0x155)](_0x44a506[_0x55f4a6(0x10e)],_0x44a506[_0x55f4a6(0x11c)]);}return _0x1506dc[_0x55f4a6(0x141)]=_0x5762bf['getAttribute'](_0x55f4a6(0x153)),insertAfter(_0x1506dc,_0x5762bf),delete _0x5762bf[_0x55f4a6(0x115)][_0x55f4a6(0x141)],delete _0x5762bf[_0x55f4a6(0x152)],_0x5762bf[_0x55f4a6(0x140)][_0x55f4a6(0x117)](_0x5762bf),_0x1506dc;}function w3_load_inline_js_single(_0x56b50f){var _0x51da6e=_0x1761;if(!external_single_loaded)return setTimeout(function(){w3_load_inline_js_single(_0x56b50f);},0xc8),!0x1;s=document[_0x51da6e(0x143)]('script');for(var _0x59a174=0x0;_0x59a174<_0x56b50f['attributes']['length'];_0x59a174++){var _0x1da10a=_0x56b50f[_0x51da6e(0x128)][_0x59a174];'data-type'==_0x1da10a[_0x51da6e(0x118)]&&s['setAttribute'](_0x51da6e(0x152),_0x1da10a[_0x51da6e(0x138)]),_0x51da6e(0x152)!=_0x1da10a[_0x51da6e(0x118)]&&s[_0x51da6e(0x155)](_0x1da10a['name'],_0x1da10a['value']);}s[_0x51da6e(0x116)]=_0x56b50f[_0x51da6e(0x116)],insertAfter(s,_0x56b50f),_0x56b50f[_0x51da6e(0x140)]['removeChild'](_0x56b50f);}function lazyLoadScripts(){var _0x2a0b27=_0x1761,_0x3ea41a=document[_0x2a0b27(0x15d)](_0x2a0b27(0x13e));if(_0x3ea41a[_0x2a0b27(0x14d)]<0x1){document[_0x2a0b27(0x11b)][_0x2a0b27(0x125)][_0x2a0b27(0x132)](_0x2a0b27(0x12e)),fullJSLoadedCB();return;}if(null!==_0x3ea41a[0x0][_0x2a0b27(0x145)](_0x2a0b27(0x153))){var _0x55abe0=w3_load_js_uri(_0x3ea41a[0x0]);_0x55abe0[_0x2a0b27(0x135)]=function(){lazyLoadScripts();},_0x55abe0[_0x2a0b27(0x14b)]=function(){lazyLoadScripts();};}else w3_load_inline_js_single(_0x3ea41a[0x0]),lazyLoadScripts();}function ksAnalytics(){var _0x3a1344=_0x1761;document[_0x3a1344(0x15d)](_0x3a1344(0x108))['forEach'](function(_0x4769c2){var _0x2493bf=_0x3a1344;trekkie[_0x2493bf(0x15a)]=!0x1,(s=document[_0x2493bf(0x143)](_0x2493bf(0x129)))['innerHTML']=_0x4769c2['innerHTML'],insertAfter(s,_0x4769c2),_0x4769c2['parentNode'][_0x2493bf(0x117)](_0x4769c2);});}function ksBoomerang(){var _0x45bbdd=_0x1761;document[_0x45bbdd(0x15d)](_0x45bbdd(0x15c))[_0x45bbdd(0x12b)](function(_0x28e1a4){var _0x17dcd8=_0x45bbdd;window[_0x17dcd8(0x149)][_0x17dcd8(0x11d)]=!0x1,(s=document[_0x17dcd8(0x143)](_0x17dcd8(0x129)))['innerHTML']=_0x28e1a4[_0x17dcd8(0x116)],insertAfter(s,_0x28e1a4),_0x28e1a4[_0x17dcd8(0x140)][_0x17dcd8(0x117)](_0x28e1a4);});}function load_all_js(){var _0x2f116f=_0x1761;Shopify[_0x2f116f(0x10f)]||window[_0x2f116f(0x109)][_0x2f116f(0x10c)][_0x2f116f(0x10b)]('/cart')>-0x1||window[_0x2f116f(0x109)][_0x2f116f(0x10c)][_0x2f116f(0x10b)](_0x2f116f(0x137))>-0x1?console[_0x2f116f(0x136)](_0x2f116f(0x131)):(console[_0x2f116f(0x136)]('Yes-optimization'),setTimeout(function(){var _0x379075=_0x2f116f,_0xb318b7=document[_0x379075(0x13c)](_0x379075(0x10d));_0xb318b7[_0x379075(0x13a)]('ks_load',!0x0,!0x0),window[_0x379075(0x127)][_0x379075(0x11a)](_0xb318b7);},0x1f4),setTimeout(function(){var _0x8a4133=_0x2f116f,_0x2ce3b0=document[_0x8a4133(0x13c)](_0x8a4133(0x10d));_0x2ce3b0['initEvent']('DOMContentLoaded2',!0x0,!0x0),window[_0x8a4133(0x127)][_0x8a4133(0x11a)](_0x2ce3b0);},0x1388)),lazyLoadScripts(),setTimeout(function(){var _0x561825=_0x2f116f;(critical2=document[_0x561825(0x15d)](_0x561825(0x159)))[_0x561825(0x12b)](function(_0x4fbafc){_0x4fbafc['remove']();});},0x1f40),setInterval(function(){lazyLoadImg(),lazyLoadIframe();});}function fullJSLoadedCB(){setTimeout(function(){});}document[_0x34f80d(0x122)](_0x34f80d(0x14a),function(){var _0x57263c=_0x34f80d;ks_windowWidth=screen['width'],ks_windowHeight=screen[_0x57263c(0x111)],lazyLoadImg2(),lazyLoadBackground2(),window['addEventListener'](_0x57263c(0x13d),function(){ks_init();}),window[_0x57263c(0x122)](_0x57263c(0x114),function(){ks_init();}),_0x57263c(0x146)!=navigator[_0x57263c(0x130)]&&ks_init(),window[_0x57263c(0x122)]('touchstart',function(){ks_init();});});</script>
