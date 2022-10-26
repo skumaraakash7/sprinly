@@ -1,0 +1,310 @@
+<!-- for email page -->
+<!--<script src="{{ 'plans.min.js' | asset_url }}"></script>-->
+
+<style>
+  
+  #btn_saves_email {
+    width: 100%;
+    height:65px;
+    padding: 0px;
+    color: white;
+    font-weight: bold;
+    font-family: 'Quicksand', sans-serif;
+  }
+
+  #btn_email_text {
+      color: white;
+      font-weight: bold;
+      font-family: 'Quicksand', sans-serif;
+  }
+  
+  @media (max-width: 800px) {
+   
+    #btn_saves_email {
+      width: 100%;
+      height:65px;
+      padding: 0px;
+      color: white;
+      font-weight: bold;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    #btn_email_text {
+      color: white;
+      font-weight: bold;
+      font-family: 'Quicksand', sans-serif;
+    }
+    
+  }
+  
+</style>
+
+<div class="index-section zero-margin text-and-image {% if section.settings.alt %} index-section--alt{% endif %} section-{{ section.id }}">
+  <!--@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');-->
+  <div class="feature-row-wrapper page-width-lg">
+    {%- capture image_layout -%}
+      <div data-aos>
+          {%- if section.settings.image != blank -%}
+            <div class="image_container_1">
+              <div class="image-wrap image_1" style="height: 0; padding-bottom: {{ 100 | divided_by: section.settings.image.aspect_ratio }}%;">
+                  {%- assign img_url = section.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                  <img class="feature-row__image lazyload"
+                    data-src="{{ img_url }}"
+                    data-widths="[180, 360, 540, 750, 900, 1080]"
+                    data-aspectratio="{{ section.settings.image.aspect_ratio }}"
+                    data-sizes="auto"
+                    alt="{{ section.settings.image.alt }}">
+                </div>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.image == blank and section.settings.background_image == blank -%}
+            <div>
+              <div class="image-wrap">
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            </div>
+            <div>
+              <div class="image-wrap">
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            </div>
+          {%- endif -%}
+      </div>
+    {%- endcapture -%}
+
+    <div class="text-with-image__content" style="background-color: rgba(255, 255, 255, {{ section.settings.transparency }}); {%- if section.settings.text_align -%}text-align: left;{%- endif -%}">
+
+      <div class="feature-row__text--center" data-aos>
+        {%- if section.settings.title != blank -%}
+          <div class="h1 desktop" style="font-size: {{ section.settings.title_size }}px">{{ section.settings.title | escape }}</div>
+          <div class="h1 mobile" style="font-size: {{ section.settings.title_size_mobile }}px">{{ section.settings.title | escape }}</div>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="rte text-with-image__subtext-desktop" style="font-size: {{ section.settings.text_size }}px">{{ section.settings.text }}</div>
+          <div class="rte text-with-image__subtext-mobile" style="font-size: {{ section.settings.text_size_mobile }}px">{{ section.settings.text }}</div>
+        {%- endif -%}
+
+        {% if section.settings.show_email %}
+          <div class="email_capture_container email-input-group text_with_image_email_capture_container">
+            <form id="form_{{ section.id }}" class="email_capture_container_form email-input-group-form" onsubmit="event.preventDefault();" autocomplete="on" action="" method="GET" target="_blank" novalidate="novalidate">
+              <!--<input type="hidden" name="g" value="{{ section.settings.list_id }}">-->
+              <!--<input type="hidden" name="contact[tags]" value="Homepage Header">-->
+              <label for="email_{{ section.id }}" class="hidden-label">E-mail Address</label>
+              <input id="email_{{ section.id }}" name="email" type="email" class="email-field input-text" placeholder="{{ section.settings.email_capture_placeholder }}" required />
+              <!--
+              <input hidden1 id="btn_save_email1" type="submit" value="{{ section.settings.email_capture_button }}" class="input-button" style="background-color: {{ section.settings.button_color }}; border-color: {{ section.settings.button_color }};" 
+                 onclick="save_email($('#email_{{ section.id }}').val());">
+              -->
+              
+              <button id="btn_saves_email" class="input-button" onclick="saves_email('{{ section.id }}', $('#email_{{ section.id }}').val());" style="background-color: {{ section.settings.button_color }}; border-color: {{ section.settings.button_color }};">
+                <span id="btn_email_text"></span>&nbsp;&nbsp;<span class='btn_spin_e'><i class='fa fa-spinner fa-spin'></i></span>
+              </button>
+              
+            </form>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    {%- if section.settings.image_top_left != blank -%}
+      <div class="text-with-image__image text-with-image__top-left-image" style="background-image: url({{ section.settings.image_top_left | img_url: '1000x'}});"></div>
+    {% endif %}
+    {%- if section.settings.image_bottom_left != blank -%}
+      <div class="text-with-image__image text-with-image__bottom-left-image" style="background-image: url({{ section.settings.image_bottom_left | img_url: '1000x'}});"></div>
+    {% endif %}
+    {%- if section.settings.image_bottom_right != blank -%}
+      <div class="text-with-image__image text-with-image__bottom-right-image" style="background-image: url({{ section.settings.image_bottom_right | img_url: '1000x'}});"></div>
+    {% endif %}
+    {%- if section.settings.image_top_right != blank -%}
+      <div class="text-with-image__image text-with-image__top-right-image"></div>
+    {% endif %}
+  </div>
+</div>
+
+{% if section.settings.background_image != blank %}
+  {%- assign background_img_url = section.settings.background_image -%}
+  <style>
+    .section-{{ section.id }} {
+      background-image: url("{{ background_img_url | img_url: 'master' }}");
+      background-size: cover;
+    }
+
+    @media (max-width: 1200px) {
+      .section-{{ section.id }} .first-image-container {
+        background-image: url("{{ background_img_url | img_url: 'master' }}");
+        background-size: cover;
+      }
+    }
+  </style>
+{% endif %}
+
+{% if section.settings.image_top_right %}
+  {%- assign background_img_url = section.settings.image_top_right -%}
+  <style>
+    .text-with-image__top-right-image {
+      background-image: url("{{ background_img_url | img_url: 'master' }}");
+    }
+
+    @media (max-width: 768px) {
+      .text-with-image__top-right-image {
+        background-image: url("{{ background_img_url | img_url: 'master' }}");
+      }
+    }
+  </style>
+  {% if section.settings.is_top_right_image %}
+    <style>
+      .text-with-image__top-right-image {
+        display: none;
+      }
+
+      @media (max-width: 768px) {
+        .text-with-image__top-right-image {
+          display: block;
+        }
+      }
+    </style>
+  {% endif %}
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Image with text",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image_top_left",
+        "label": "Top left corner image"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_bottom_left",
+        "label": "Bottom left corner image"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_bottom_right",
+        "label": "Bottom right image"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_top_right",
+        "label": "Top right corner image"
+      },
+      {
+        "type": "checkbox",
+        "id": "is_top_right_image",
+        "label": "Hide top right image on desktop",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "background_image",
+        "label": "Background Image"
+      },
+      {
+        "type": "range",
+        "id": "transparency",
+        "label": "Transparency % of the white box",
+        "default": 0.7,
+        "min": 0,
+        "max": 1,
+        "step": 0.1
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Image with text"
+      },
+      {
+        "type": "range",
+        "id": "title_size",
+        "label": "Title font size",
+        "default": 50,
+        "min": 20,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "title_size_mobile",
+        "label": "Title font size for mobile",
+        "default": 20,
+        "min": 10,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>Pair large text with an image to tell a story, explain a detail about your product, or describe a new promotion.</p>"
+      },
+      {
+        "type": "range",
+        "id": "text_size",
+        "label": "Text font size",
+        "default": 18,
+        "min": 10,
+        "max": 50,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "text_size_mobile",
+        "label": "Text font size for subtext on mobile",
+        "default": 18,
+        "min": 10,
+        "max": 50,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "checkbox",
+        "id": "text_align",
+        "label": "Text align left on mobile"
+      },
+      {
+        "type": "color",
+        "id": "button_color",
+        "label": "Button color",
+        "default": "#ff5151"
+      },
+      {
+        "type": "checkbox",
+        "id": "alt",
+        "label": "Use alternate section color"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_email",
+        "label": "Get started email input"
+      },
+      {
+        "type": "text",
+        "id": "email_capture_placeholder",
+        "label": "Email Input Placeholder",
+        "default": "Enter email address"
+      },
+      {
+        "type": "text",
+        "id": "email_capture_button",
+        "label": "Email button text",
+        "default": "View Plans & Menu"
+      },
+      {
+        "type": "text",
+        "id": "list_id",
+        "label": "Klaviyo List ID"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image with text",
+        "category": "Image"
+      }
+    ]
+  }
+{% endschema %}

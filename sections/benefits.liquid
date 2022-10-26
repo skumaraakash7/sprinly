@@ -1,0 +1,103 @@
+{%- if section.blocks.size > 0 -%}
+  <div class="benefits-container">
+    {%- if section.settings.title -%}
+      <div class="section-title text-center page-width">
+        <p class="h2">
+          {{ section.settings.title }}
+        </p>
+      </div>
+    {%- endif -%}
+    <ul class="benefits page-width">
+      {%- for block in section.blocks -%}
+        <li class="benefit{% if block.settings.title %} {{ block.settings.title | handleize }}{% endif %}">
+          {%- if block.settings.icon -%}
+            <img class="{% if block.settings.title %}{{ block.settings.title | handleize }}{% endif %} lazyload"
+                alt="{%- if block.settings.title -%}{{ block.settings.title }}{%- endif -%}"
+                src="{{ block.settings.icon }}" data-src="{{ block.settings.icon }}"/>
+          {%- endif-%}
+          <div class="content">
+            {%- if block.settings.title -%}
+              <h4>
+                {{ block.settings.title }}
+              </h4>
+            {%- endif-%}
+            {%- if block.settings.description -%}
+              {{ block.settings.description }}
+            {%- endif-%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+    {%- if section.settings.cta_url -%}
+      <div class="cta-container">
+        <a class="button" href="{{ section.settings.cta_url }}">
+          {{ section.settings.cta_title }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Benefits",
+  "class": "benefits",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Benefits"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f2f2f2"
+    },
+    {
+      "type": "text",
+      "id": "cta_title",
+      "label": "CTA Title",
+      "default": "View Our Plans"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA Url"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+            "type": "text",
+            "id": "icon",
+            "label": "Icon",
+            "info": "Upload image to [Settings > Files](/admin/settings/files) and paste the link here. (Cmd+Click or Ctrl+Click to open in new tab)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Your description goes here.</p>"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  .benefits-container {
+    background: {{ section.settings.background_color }}
+  }
+{% endstyle %}

@@ -1,0 +1,44 @@
+<div class="meals">
+  {%- assign collection_title = collection.title | split: ',' -%}
+  <h2 class="meals-title" onclick="$('.panel_{{ count }}').toggle();$('.panel_plus_{{ count }}').toggle();$('.panel_minus_{{ count }}').toggle()">
+    {{ collection_title[0] | escape }} 
+    <span class="panel_plus_{{ count }}" style="color:#F95151;cursor:pointer;float:right;" title="show meals">+</span>
+    <span class="panel_minus_{{ count }}" style="color:#F95151;cursor:pointer;float:right;" title="hide meals">_</span>
+    <hr style="height: 1px; background-color: lightgray; border: none;">
+  </h2>
+  <div class="meal-selection panel_{{ count }}">
+    {%- for product in collection.products -%}
+      {% if request.design_mode %}
+        {%- render 'product-grid-item', product: product -%}
+      {% else %}
+        {%- render 'product-grid-item-v2', product: product -%}
+        {%- render 'product-grid-item', product: product -%}
+      {% endif %}
+    {%- endfor -%}
+  </div>
+</div>
+
+<script>
+  (function($) {
+      $.QueryString = (function(a) {
+          if (a == "") return {};
+          let b = {};
+          for (let i = 0; i < a.length; ++i)
+          {
+              let p=a[i].split('=');
+              if (p.length != 2) continue;
+              b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+          }
+          return b;
+      })(window.location.search.substr(1).split('&'))
+  })(jQuery);
+  
+  var param = jQuery.QueryString["design"];
+  console.log(param);
+
+  if (param == 'v2') {
+    $('.menu-v1').hide();
+  } else {
+    $('.menu-v2').hide();
+  }
+</script>

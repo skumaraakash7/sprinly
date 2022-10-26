@@ -1,0 +1,36 @@
+{%- capture classes -%}site-nav__item site-nav__expanded-item
+  {% unless template == 'index' %}
+    {% if link.active %}
+      site-nav--active
+    {% endif %}
+  {% endunless %}
+{%- endcapture -%}
+
+<ul class="site-nav site-navigation right-navigation legacy-right-nav no-bullets">
+  {%- for link in right_menu.links -%}
+    <li class="{{ classes }}">
+      <a href="{{ link.url }}" class="site-nav__link">{{ link.title }}</a>
+    </li>
+  {%- endfor -%}
+  <li class="{{ classes }} account" style="position:relative;left:-10px;">
+    {% if customer %}
+      <a href="{{ routes.account_url }}" class="site-nav__link account-icon">{%- render 'icon-user' -%}</a>
+    {% else %}
+      <a href="{{ routes.account_login_url }}" class="site-nav__link">Log In</a>
+    {% endif %}
+  </li>
+  {% comment %} DESKTOP ONLY {% endcomment %}
+  {% unless customer.tags contains 'Active Subscriber' or customer.tags contains 'Inactive Subscriber' %}
+    {% if button_link %}
+      <li class="site-nav__item site-nav__expanded-item site-nav-button">
+          {% if cart.item_count > 0 %}
+            <button class="btn checkout-button" onclick="redirectToRechargeCart()">Checkout</button>
+          {% else %}
+            {% unless template contains 'menus' or  template contains 'plans' %}
+              <a class="btn {% if customer %}customer-exists{% endif %}" href="{{ button_link }}">{{ button_text }}</a>
+            {% endunless %}
+          {% endif %}
+      </li>
+    {% endif %}
+  {% endunless %}
+</ul>

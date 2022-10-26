@@ -1,0 +1,37 @@
+{%- if section.settings.show == true -%}
+    <div>
+        <a href="{{ section.settings.link }}">
+            <div>
+                {{ section.settings.callout }} {% include 'arrow-right' %}
+            </div>
+        </a>
+    </div>
+{% endif %}
+
+{% schema %}
+    {
+        "name": "Story Callout",
+        "class": "story-callout",
+        "settings": [
+            {
+                "id": "show",
+                "type": "checkbox",
+                "label": "Show story callout",
+                "default": true
+
+            },
+            {
+                "id": "callout",
+                "type": "text",
+                "label": "Callout Copy",
+                "default": "Read Our Mission"
+            },
+            {
+                "id": "link",
+                "type": "page",
+                "label": "Link"
+
+            }
+        ]
+    }
+{% endschema %}

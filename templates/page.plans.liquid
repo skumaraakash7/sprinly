@@ -1,0 +1,133 @@
+{% if template contains 'plans' or template contains 'email' %}
+    <div class="progress-bar-m"><img src="{{ 'mobile-progress-bar-step-1.svg' | asset_url }}"></div>
+    <!--
+      <div class="progress-bar-1"><img src="{{ 'mobile-progress-bar-step-3.svg' | asset_url }}"></div>
+      //cdn.shopify.com/s/files/1/0506/7040/3779/t/160/assets/mobile-progress-bar-step-3.svg
+    -->
+{% endif %}
+
+<div class="tab" style="height:25%;">&nbsp;</div>
+<div class="tab">
+    <button class="tablinks">&nbsp;</button>
+    <button class="tablinks" onclick="openTab(event, 'Plans')" id="defaultOpen"><h4>Plans</h4></button>
+    <button class="tablinks" onclick="openTab(event, 'Menu')"><h4>Menu</h4></button>
+    <button class="tablinks">&nbsp;</button>
+</div>
+  
+<div id="Plans" class="tabcontent">
+    {% section 'page-plans-2' %}
+</div>
+  
+<div id="Menu" class="tabcontent">
+    {% section 'list-collections-template' %}
+</div>
+
+{% section 'questions' %}
+
+<script>
+    $('.sticky-promo-bar').hide();
+    function openTab(evt, tab) {
+      if(tab === 'Plans'){
+        $('.sticky-promo-bar').hide();
+      }else{
+        $('.sticky-promo-bar').show();
+      }
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(tab).style.display = "block";
+      //document.getElementById(tab).style.font-weight = "bold";
+      evt.currentTarget.className += " active";
+    }
+    
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+
+    const getUrlParam2 = function(name){
+      name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+      var regexS = "[\\?&]" + name + "=([^&#]*)";
+      var regex = new RegExp(regexS);
+      var results = regex.exec(window.location.search);
+      if(results == null)
+        return "";
+      else
+        return decodeURIComponent(results[1].replace(/\+/g, " "));
+    };
+
+    //capture showing page tabs plans/menu - A/B test
+    /*
+    $('.tab').hide();
+    //console.log('menu', getUrlParam2('menu'));
+    if(getUrlParam2('menu')==='true' || sessionStorage.getItem('plansPageTabs') ==='true') {
+      $('.tab').show();
+      sessionStorage.setItem('plansPageTabs','true');
+    }
+    if(getUrlParam2('menu')==='false') {
+      $('.tab').hide();
+      sessionStorage.removeItem('plansPageTabs');
+    }
+    */
+</script>
+
+<style>
+    /* Style the tab */
+    .tab {
+      overflow: hidden;
+      border: 0px solid #ccc;
+      background-color: #f1f1f1;
+      text-align:center;
+    }
+    
+    /* Style the buttons inside the tab */
+    .tab button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      transition: 0.3s;
+      font-size: 17px;
+      font-weight: bold;
+      width: 12%;
+      nowrap: nowrap;
+    }
+
+    .tab button:first-of-type {
+      width: 38%;
+    }
+
+    @media screen and (max-width: 799px) {
+      .tab button {
+        width: 22%;
+      }
+      .tab button:first-of-type {
+        width: 30%;
+      }
+    }
+    
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+      /*background-color: #ddd;*/
+    }
+    
+    /* Create an active/current tablink class */
+    .tab button.active {
+      background-color: #fff;
+      font-weight: bold;
+    }
+    
+    /* Style the tab content */
+    .tabcontent {
+      display: none;
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      border-top: none;
+    }
+</style>

@@ -1,0 +1,269 @@
+<!-- email form for home page -->
+
+{%- liquid
+  assign overlap_images = true
+  unless section.settings.overlap-images == false
+    if section.settings.image != blank and section.settings.image2 == blank
+      assign overlap_images = false
+    endif
+  endunless
+-%}
+
+<style>
+  /* move elsewhere */
+  .zero-margin{
+    margin-top: 0px;
+    padding-top: 15px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+  }
+</style>
+
+<script>
+//localStorage.removeItem("customerEmail");
+const save_email = (email) => {
+  //return;
+  if(email) localStorage.setItem('customerEmail', window.btoa(email));
+  window.location.href = "/pages/subscription"; //email, subscription
+}
+</script>
+
+<div class="index-section zero-margin text-and-image {% if section.settings.alt %} index-section--alt{% endif %} section-{{ section.id }}">
+
+  <div class="feature-row-wrapper page-width-lg">
+    {%- capture image_layout -%}
+      <div class="feature-row__item first-image-container {% if overlap_images %} feature-row__item--overlap-images{% endif %}" data-aos>
+          {%- if section.settings.image != blank -%}
+            <div class="image_container_1">
+              {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}<a href="{{ section.settings.button_link }}">{%- endif -%}
+                <div class="image-wrap image_1" style="height: 0; padding-bottom: {{ 100 | divided_by: section.settings.image.aspect_ratio }}%;">
+                  {%- assign img_url = section.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                  <img class="feature-row__image lazyload"
+                    data-src="{{ img_url }}"
+                    data-widths="[180, 360, 540, 750, 900, 1080]"
+                    data-aspectratio="{{ section.settings.image.aspect_ratio }}"
+                    data-sizes="auto"
+                    alt="{{ section.settings.image.alt }}">
+                </div>
+              {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}</a>{%- endif -%}
+            </div>
+          {%- endif -%}
+          {%- if section.settings.image2 != blank -%}
+            <div class="image_container_2">
+              {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}<a href="{{ section.settings.button_link }}">{%- endif -%}
+                <div class="image-wrap image_2" style="height: 0; padding-bottom: {{ 100 | divided_by: section.settings.image2.aspect_ratio }}%;">
+                  {%- assign img_url = section.settings.image2 | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                  <img class="feature-row__image lazyload"
+                    data-src="{{ img_url }}"
+                    data-widths="[180, 360, 540, 750, 900, 1080]"
+                    data-aspectratio="{{ section.settings.image2.aspect_ratio }}"
+                    data-sizes="auto"
+                    alt="{{ section.settings.image2.alt }}">
+                </div>
+              {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}</a>{%- endif -%}
+            </div>
+          {%- endif -%}
+          {%- if section.settings.image == blank and section.settings.image2 == blank and section.settings.background_image == blank -%}
+            <div>
+              <div class="image-wrap">
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            </div>
+            <div>
+              <div class="image-wrap">
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            </div>
+          {%- endif -%}
+      </div>
+    {%- endcapture -%}
+
+    <div class="feature-row {% if section.settings.image2 == blank %}one-image{% endif %}">
+      {%- if section.settings.layout == 'left' -%}
+        {{ image_layout }}
+      {%- endif -%}
+
+      <div class="feature-row__item feature-row__text feature-row__text--{{ section.settings.layout }}" data-aos>
+        {%- if section.settings.subtitle != blank -%}
+          <div class="subheading appear-delay{% cycle '','-1','-2','-3','-4' %}">{{ section.settings.subtitle }}</div>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <div class="h1 appear-delay{% cycle '','-1','-2','-3','-4' %}">{{ section.settings.title | escape }}</div>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="rte appear-delay{% cycle '','-1','-2','-3','-4' %}">{{ section.settings.text }}</div>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank -%}
+          <div class="appear-delay{% cycle '','-1','-2','-3','-4' %}">
+            <a href="{{ section.settings.button_link }}" class="btn{% if section.settings.button_style == 'secondary' %} btn--tertiary{% endif %}">
+              {{ section.settings.button_label }}
+            </a>
+          </div>
+        {%- endif -%}
+
+        {% if section.settings.show_email %}
+          <div class="email_capture_container email-input-group text_with_image_email_capture_container text-and-image__form">
+            <form id="form_{{ section.id }}" class="email_capture_container_form email-input-group-form" onsubmit="event.preventDefault();" autocomplete="on" action="//manage.kmail-lists.com/subscriptions/subscribe" method="GET" target="_blank" novalidate="novalidate">
+              <input type="hidden" name="g" value="{{ section.settings.list_id }}">
+              <input type="hidden" name="contact[tags]" value="Homepage Header">
+              <label for="email_{{ section.id }}" class="hidden-label">E-mail Address</label>
+              <input id="email_{{ section.id }}" name="email" type="email" class="email-field input-text" placeholder="{{ section.settings.email_capture_placeholder }}" required />
+              <input type="submit" value="{{ section.settings.email_capture_button }}" class="input-button" onclick="save_email($('#email_{{section.id}}').val());" />
+            </form>
+          </div>
+        {% endif %}
+      </div>
+      {%- if section.settings.layout == 'right' -%}
+        {{ image_layout }}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% if section.settings.background_image != blank %}
+  {%- assign background_img_url = section.settings.background_image -%}
+  <style>
+    .section-{{ section.id }} {
+      background-image: url("{{ background_img_url | img_url: 'master' }}");
+      background-size: cover;
+    }
+
+    @media (max-width: 1200px) {
+      .section-{{ section.id }} .first-image-container {
+        background-image: url("{{ background_img_url | img_url: 'master' }}");
+        background-size: cover;
+      }
+    }
+  </style>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Image with text test",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "image2",
+        "label": "Image 2"
+      },
+      {
+        "type": "image_picker",
+        "id": "background_image",
+        "label": "Background Image"
+      },
+      {
+      "type": "checkbox",
+        "id": "overlap-images",
+        "label": "Overlap Images 1 and 2?",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "image_width",
+        "label": "Image width",
+        "default": 700,
+        "min": 200,
+        "max": 700,
+        "step": 10,
+        "unit": "px"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Subheading"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Image with text"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>Pair large text with an image to tell a story, explain a detail about your product, or describe a new promotion.</p>"
+      },
+      {
+        "type": "text",
+        "id": "button_label",
+        "label": "Button label"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+      },
+      {
+        "type": "select",
+        "id": "button_style",
+        "label": "Button style",
+        "default": "primary",
+        "options": [
+          {
+            "value": "primary",
+            "label": "Primary"
+          },
+          {
+            "value": "secondary",
+            "label": "Secondary"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "default": "right",
+        "options": [
+          {
+            "value": "left",
+            "label": "Image on left"
+          },
+          {
+            "value": "right",
+            "label": "Image on right"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "alt",
+        "label": "Use alternate section color"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_email",
+        "label": "Get started email input"
+      },
+      {
+        "type": "text",
+        "id": "email_capture_placeholder",
+        "label": "Email Input Placeholder",
+        "default": "Enter email address"
+      },
+      {
+        "type": "text",
+        "id": "email_capture_button",
+        "label": "Email Input Placeholder",
+        "default": "GET STARTED!"
+      },
+      {
+        "type": "text",
+        "id": "list_id",
+        "label": "Klaviyo List ID"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Old Image with text",
+        "category": "Image"
+      }
+    ]
+  }
+{% endschema %}

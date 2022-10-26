@@ -1,0 +1,308 @@
+{% comment %}
+  menu_alignment options:
+    - left
+    - left-center
+    - center-left
+    - center-split
+    - center
+    - right
+{% endcomment %}
+
+{%- liquid
+  assign main_menu = linklists[section.settings.main_menu_link_list]
+  assign right_menu = linklists[section.settings.right_menu_link_list]
+
+  assign menu_alignment = section.settings.main_menu_alignment
+  assign logo_alignment = 'left'
+  if menu_alignment == 'center-left' or menu_alignment == 'center-split' or menu_alignment == 'center'
+    assign logo_alignment = 'center'
+  endif
+  if menu_alignment == 'right'
+    assign logo_alignment = 'left-right'
+  endif
+
+  if main_menu == blank
+    assign logo_alignment = 'center'
+  endif
+
+  assign template_name = template | replace: '.', ' ' | truncatewords: 2, '' | handle
+
+  assign overlay_header = false
+  if template_name == 'index' and section.settings.sticky_index
+    assign overlay_header = true
+  endif
+  if template_name == 'collection' and collection.image and section.settings.sticky_collection
+    assign overlay_header = true
+  endif
+-%}
+
+{%- render 'slide-nav',
+  section: section,
+  main_menu: main_menu
+-%}
+{%- if settings.cart_type == 'sticky' -%}
+  {%- render 'sticky-cart' -%}
+{%- endif -%}
+
+{%- style -%}
+  .slide-nav,
+  .slide-nav button {
+    font-size: {{ settings.type_navigation_size }}px;
+  }
+
+  {% if overlay_header %}
+    @media only screen and (min-width: 769px) {
+      .collection-hero__content .section-header--hero {
+        margin-top: 40px;
+      }
+    }
+  {% endif %}
+{%- endstyle -%}
+
+<div data-section-id="{{ section.id }}" data-section-type="header-section">
+  <div
+    data-header-style="{{ section.settings.header_style }}"
+    class="header-wrapper{% if overlay_header %} header-wrapper--overlay is-light{% endif %}">
+
+    {%- if section.settings.show_announcement -%}
+      {%- if section.settings.show_announcement_home_only -%}
+        {%- if template == 'index' -%}
+          {%- render 'announcement-bar', section: section -%}
+        {%- endif -%}
+      {%- else -%}
+        {%- render 'announcement-bar', section: section -%}
+      {%- endif -%}
+    {%- endif -%}
+
+    {% comment %}
+      Logo is used as a between-screen loader, so we only
+      show the mobile logo on the home page (setting to override)
+    {% endcomment %}
+    {%- assign mobile_logo_only = true -%}
+
+    <header
+      class="site-header{% if section.settings.logo_hide_mobile %}{% unless template_name == 'index' %} small--hide{% endunless %}{% endif %}"
+      data-overlay="{{ overlay_header }}">
+      <div class="page-width page-width--header">
+        <div class="header">
+          <nav class="navbar navbar-expand-lg navbar-light bg-light nav-desktop">
+            <div class="header-block -logo navbar-brand">
+              {%- render 'header-logo-block', section: section -%}
+            </div>
+            {% if section.settings.right_menu_button_link %}
+              <div class="header-block -buttons">
+                {% unless customer.tags contains 'Active Subscriber' or customer.tags contains 'Inactive Subscriber' %}
+                  {% if cart.item_count > 0 %}
+                    <button class="btn checkout-button" onclick="redirectToRechargeCart()">Checkout</button>
+                  {% else %}
+                  {% unless  template contains 'plans' %}
+                    <a href="{{ section.settings.right_menu_button_link }}" class="btn_get_start"><button class="btn">{{ section.settings.right_menu_button_text }}</button></a>
+                  {% endunless %}
+                  {% endif %}
+                {% endunless %}
+                {% if customer %}
+                  <a href="{{ routes.account_url }}" class="site-nav__link account-icon">{%- render 'icon-user' -%}</a>
+                {% endif %}
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+              </div>
+            {% endif %}
+            <div class="header-block -nav collapse navbar-collapse" id="navbarSupportedContent">
+              {%- render 'header-desktop-nav', main_menu: main_menu -%}
+              {%- render 'header-desktop-right-nav', right_menu: right_menu, button_link: section.settings.right_menu_button_link, button_text: section.settings.right_menu_button_text -%}
+            </div>
+          </nav>
+
+          <nav class="navbar navbar-expand-lg navbar-light bg-light nav-mobile">
+            {% if section.settings.right_menu_button_link %}
+              <div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+              </div>
+            {% endif %}
+            <div class="header-block -logo navbar-brand">
+              {%- render 'header-logo-block', section: section -%}
+            </div>
+            {% if section.settings.right_menu_button_link %}
+              <div class="header-block -buttons">
+                {% unless customer.tags contains 'Active Subscriber' or customer.tags contains 'Inactive Subscriber' %}
+                  {% if cart.item_count > 0 %}
+                    <button class="btn checkout-button" onclick="redirectToRechargeCart()">Checkout</button>
+                  {% else %}
+                  {% unless  template contains 'plans' %}
+                    <a href="{{ section.settings.right_menu_button_link }}" class="btn_get_start"><button class="btn">{{ section.settings.right_menu_button_text }}</button></a>
+                  {% endunless %}
+                  {% endif %}
+                {% endunless %}
+              </div>
+                {% if customer %}
+                  <a href="{{ routes.account_url }}" class="site-nav__link account-icon">{%- render 'icon-user' -%}</a>
+                {% endif %}
+            {% endif %}
+            <div class="header-block -nav collapse navbar-collapse" id="navbarSupportedContent">
+              {%- render 'header-desktop-nav', main_menu: main_menu -%}
+              {%- render 'header-desktop-right-nav', right_menu: right_menu, button_link: section.settings.right_menu_button_link, button_text: section.settings.right_menu_button_text -%}
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+  </div>
+</div>
+
+{%- if section.settings.header_search_enable -%}
+  {%- render 'search-modal' -%}
+{%- endif -%}
+
+<style>
+  .nav-mobile {
+    display: none;
+  }
+  @media (max-width: 991px) {
+    .nav-desktop {
+      display: none;
+    }
+    .nav-mobile {
+      display: flex;
+    }
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Layout"
+      },
+      {
+        "type": "select",
+        "id": "header_style",
+        "label": "Desktop style",
+        "default": "button",
+        "options": [
+          {
+            "value": "button",
+            "label": "Sticky button"
+          },
+          {
+            "value": "bar",
+            "label": "Sticky bar"
+          },
+          {
+            "value": "top",
+            "label": "Top only"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "sticky_index",
+        "label": "Overlay header over home page"
+      },
+      {
+        "type": "checkbox",
+        "id": "sticky_collection",
+        "label": "Overlay header over collection",
+        "info": "(if collection image is enabled)"
+      },
+      {
+        "type": "checkbox",
+        "id": "header_search_enable",
+        "label": "Enable search"
+      },
+      {
+        "type": "header",
+        "content": "Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo-inverted",
+        "label": "White logo",
+        "info": "Used when on top of an image"
+      },
+      {
+        "type": "range",
+        "id": "desktop_logo_width",
+        "label": "Desktop logo width",
+        "default": 200,
+        "min": 80,
+        "max": 400,
+        "step": 10,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "mobile_logo_width",
+        "label": "Mobile logo width",
+        "default": 140,
+        "min": 50,
+        "max": 200,
+        "step": 10,
+        "unit": "px",
+        "info": "Set as a max-width, may appear smaller"
+      },
+      {
+        "type": "checkbox",
+        "id": "logo_hide_mobile",
+        "label": "Hide logo on mobile pages",
+        "default": true,
+        "info": "Maximizes screen space for your content. Add your logo under Animations to show your logo as the page loads instead. Logo always shows on home page."
+      },
+      {
+        "type": "header",
+        "content": "Navigation"
+      },
+      {
+        "type": "link_list",
+        "id": "main_menu_link_list",
+        "label": "Menu",
+        "default": "main-menu"
+      },
+      {
+        "type": "link_list",
+        "id": "right_menu_link_list",
+        "label": "Right Menu",
+        "default": "main-menu"
+      },
+      {
+        "type": "text",
+        "id": "right_menu_button_text",
+        "label": "Right Menu Button Text",
+        "default": "Get Started"
+      },
+      {
+        "type": "url",
+        "id": "right_menu_button_link",
+        "label": "Right Menu Button Link"
+      },
+      {
+        "type": "header",
+        "content": "Announcement bar"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_announcement",
+        "label": "Show an announcement"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_announcement_home_only",
+        "label": "Home page only"
+      },
+      {
+        "type": "richtext",
+        "id": "announcement_text",
+        "label": "Announcement text"
+      }
+    ]
+  }
+{% endschema %}

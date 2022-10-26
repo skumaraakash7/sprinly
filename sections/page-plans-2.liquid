@@ -1,0 +1,117 @@
+<!-- this is Andys plans-2 page. IT has its own assets/andy.css -->
+
+<!-- Plans -->
+<div class="plans challenger">
+  <div class="select-plan">
+    <div class="select-plan-body">
+    <!--
+      {% if template contains 'plans' or template contains 'email' %}
+      <div class="progress-bar-2">
+      <li class="progress-1 site-nav__item site-nav__link" style="color:#69B277;font-weight:bold;">1. Select Plan</li>
+      <li class="progress-2 site-nav__item site-nav__link">> 2. Checkout ></li>
+      <li class="progress-3 site-nav__item site-nav__link">3. Select Meals</li>
+      </div>
+      <div class="progress-bar-1"><img src="{{ 'mobile-progress-bar-step-1.svg' | asset_url }}"></div>
+      <div hidden class="progress-bar-1"><img src="{{ 'mobile-progress-bar-step-2.svg' | asset_url }}"></div>
+      {% endif %}
+    -->
+      <h1 class="select-plan-title">{{ section.settings.title }}</h1>
+      <!--<p class="intro">Free delivery on all orders!</p>-->
+
+      <p class="intro form-group" style="cursor:pointer;">
+        First delivery is scheduled for week of <b><span id="selected_delivery_date" style="white-space: nowrap;"></span></b>
+        <!--<select id="delivery_date" onchange="change_delivery_date(this.value)" style="height:auto !important; overflow:hidden !important;">-->
+        <select id="delivery_date" onchange="change_delivery_date(this.value)" class="form-control delivery-date" data-role="select-dropdown">
+        <!--
+          <option value="{week:395,date:january 3}">January 3</option>
+          <option value="{week:396,date:january 10}">January 10</option>
+          <option value="{week:397,date:january 17}">January 17</option>
+        -->
+        </select>
+        <span id="edit_delivery_date" onclick="edit_delivery_date()"><a href=#><u>Edit</u></a></span>
+        <span id="close_delivery_date" onclick="close_delivery_date()"><a href=#><u>Close</u></a></span>
+      </p>
+
+      <div class="select-plan-group">
+        <!-- <div class="select-plan-subtitle">
+          {{ section.settings.subtitle }}
+        </div> -->
+
+        {% assign i = 0 %}
+        {% for plan in collections['meal-plans'].products %}
+        {% assign variant_id = plan.selected_or_first_available_variant.metafields.subscriptions.discount_variant_id %}
+        {% assign variant_id = plan.selected_or_first_available_variant.id %}
+        {% assign i = i | plus: 1 %}
+          <div class="select-plan-group-item">
+            <div class="select-plan-group-item-text">
+              <h3 class="select-plan-group-item-title">
+                <span class="break">{{ plan.title | remove: ' Meals' }}</span>
+                Meals
+              </h3>
+              <!--<b>free delivery!*</b>-->
+              <p class="select-plan-group-item-price">
+                {{ plan.price | money_without_trailing_zeros }} per week 
+              </p>
+              <!-- <p class="select-plan-group-item-cta mobile">{{ section.settings.cta_text }}</p> -->
+            </div>
+            <img src="{{ plan.featured_image | img_url: '300x' }}" alt="{{ plan.featured_image.alt }}" class="select-plan-group-item-image">
+            
+            <a class="select-plan-group-item-button" data-plan="{{ plan.title | remove: ' Meals' }}" href="Javascript: select_plan({{variant_id}},'{{plan.title}}',{{i}});">
+              {{ section.settings.select_button_text }} <span class="btn_spin_{{i}}">&nbsp;&nbsp;<i class="fa fa-spinner fa-spin"></i></span>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+      <!--
+      <div class="space">&nbsp;</div>
+      <div style="text-align:center;">*Free delivery excludes CA, IL, MN, NY, NC, and VA</div>
+      -->
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Page.plans page",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Banner Title",
+        "default": "Select your plan"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Subtitle",
+        "default": "free delivery for all plans!"
+      },
+      {
+        "type": "text",
+        "id": "bottom_text",
+        "label": "Bottom Text",
+        "default": "Skip weeks, switch plans or cancel anytime"
+      },
+      {
+        "type": "text",
+        "id": "select_button_text",
+        "label": "Button text",
+        "default": "Select"
+      },
+      {
+        "type": "text",
+        "id": "cta_text",
+        "label": "Meal Plan Card CTA Text",
+        "default": "free delivery!"
+      }
+    ]
+  }
+{% endschema %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var element = document.getElementById('shopify-section-list-collections-template');
+    element.classList.add('challenger');
+  }, false);
+  //$('.plans').hide();
+</script>

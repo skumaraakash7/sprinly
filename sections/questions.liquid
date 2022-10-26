@@ -1,0 +1,80 @@
+{%- if section.settings.title -%}
+  <div class="section-title text-center page-width">
+    <p class="h2">
+      {{ section.settings.title }}
+    </p>
+  </div>
+{%- endif -%}
+{%- if section.blocks.size > 0 -%}
+  <div class="accordion-container page-width">
+    <div class="accordion" id="questionsAccordion">
+      {%- for block in section.blocks -%}
+        <div class="accordion-item" style="border-width: 0px 0px 1px 0px;">
+          <h2 class="accordion-header" id="heading{{ forloop.index }}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.index }}" aria-expanded="false" aria-controls="collapse{{ forloop.index }}">
+              {{ block.settings.title }}
+            </button>
+          </h2>
+          <div id="collapse{{ forloop.index }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.index }}" data-bs-parent="#questionsAccordion">
+            <div class="accordion-body">
+              {{ block.settings.answer }}
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.cta_url -%}
+      <div class="cta-container">
+        <a class="button" href="{{ section.settings.cta_url }}">
+          {{ section.settings.cta_title }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Questions",
+  "class": "questions",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Common Questions"
+    },
+    {
+      "type": "text",
+      "id": "cta_title",
+      "label": "CTA Title",
+      "default": "See all FAQ"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA Url"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "qa",
+      "name": "Q/A",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Question",
+          "default": "What is your question?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>This is the answer.</p>"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

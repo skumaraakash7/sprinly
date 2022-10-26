@@ -1,0 +1,67 @@
+<div class="page-width">
+
+    {%- if section.settings.title -%}
+    <h3>{{ section.settings.title  }}</h3>
+    {%- endif -%}
+
+    <div class="career-listings">
+        {%- if section.blocks.size > 0 -%}
+            {%- for block in section.blocks -%}
+                {%- if block.settings.link != blank -%}
+                <a href="{{ block.settings.link }}">
+                    <div class="career-listings__item">
+                        <h4>{{ block.settings.title }}</h4>
+
+                        <span class="career-listings__item--link">Apply&nbsp;Now</span>
+                    </div>
+                </a>
+                {% else %} 
+                    <div class="career-listings__item">
+                        <h4>{{ block.settings.title }}</h4>
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+        {% else %}
+
+        <p>There are currently no openings.</p>
+
+        {% endif %}
+    </div>
+
+</div>
+
+{% schema %}
+    {
+        "name": "Career Listings",
+        "class": "career-listings",
+        "settings": [
+            {
+                "id": "title",
+                "type": "text",
+                "label": "Title",
+                "default": "Current Openings"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "positions",
+                "name": "Positions",
+                "settings": [
+                    {
+                        "id": "title",
+                        "type": "text",
+                        "label": "Position Title",
+                        "default": "Position Title"
+                    },
+                    {
+                        "id": "link",
+                        "type": "page",
+                        "label": "Application"
+                    }
+                ]
+            }
+        ]
+    }
+
+{% endschema %}

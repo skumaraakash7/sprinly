@@ -1,0 +1,11 @@
+{% comment %}
+{% assign bundle_min = 0 %}
+{% assign bundle_max = 12 %}
+{% assign subscription_product = product.metafields.subscriptions %}
+
+<div id="ProductSection-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="product" data-enable-history-state="true" data-ajax-enabled="{{ settings.enable_ajax }}">
+  {% section 'text-and-image' %}
+  {% section 'index-custom-why-sprinly' %}
+  {% section 'awards' %}
+</div>
+{% endcomment %}

@@ -1,0 +1,182 @@
+{%- render 'icon-why-sprinly' -%}
+
+<div class="why-sprinly--inner page-width">
+  <h2>{{ section.settings.heading }}</h2>
+  <p class="inner-subheading">{{ section.settings.subheading }}</p>
+  <div class="features">
+    <div class="features--inner">
+      {% for block in section.blocks %}
+        <div class="feature" data-id="{{ block.id }}">
+          <img class="lazyload" alt="{{ block.settings.title }}" src="{{ block.settings.image }}" data-src="{{ block.settings.image }}" />
+          <div class="feature-content">
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.description }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="features--action">
+      {% if section.settings.button_link %}
+        <a class="btn" href="{{ section.settings.button_link }}">{{ section.settings.button_text }}</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+
+{% style %}
+
+.sprinly-background path {
+  fill: {{ section.settings.background_color }};
+}
+.why-sprinly h2 {
+  color: {{ section.settings.heading_color }};
+}
+.why-sprinly .inner-subheading {
+  color: {{ section.settings.subheading_color }};
+}
+.why-sprinly .feature h3 {
+  color: {{ section.settings.feature_heading_color }};
+}
+
+{% for block in section.blocks %}
+.why-sprinly .feature[data-id="{{ block.id }}"] h3 {
+  max-width: {{ block.settings.feature_heading_width }}px;
+}
+.why-sprinly .feature[data-id="{{ block.id }}"] p {
+  max-width: {{ block.settings.feature_description_width }}px;
+}
+
+@media (max-width: 800px) {
+  .why-sprinly .feature[data-id="{{ block.id }}"] h3 {
+    width: 100%;
+    max-width: 100%;
+  }
+  .why-sprinly .feature[data-id="{{ block.id }}"] p {
+    width: 100%;
+    max-width: 100%;
+  }
+  }
+{% endfor %}
+
+.why-sprinly .feature p {
+  color: {{ section.settings.feature_description_color }};
+}
+{% endstyle %}
+
+{% schema %}
+{
+    "name": "[Custom] Why Sprinly",
+    "class": "why-sprinly",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading"
+      },
+      {
+        "type": "textarea",
+        "id": "subheading",
+        "label": "Subheading"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button Link"
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#9ef0b7"
+      },
+      {
+        "type": "color",
+        "id": "heading_color",
+        "label": "Heading Color",
+        "default": "#29333f"
+      },
+      {
+        "type": "color",
+        "id": "subheading_color",
+        "label": "Subheading Color",
+        "default": "#29333f"
+      },
+      {
+        "type": "color",
+        "id": "feature_heading_color",
+        "label": "Feature Heading Color",
+        "default": "#29333f"
+      },
+      {
+        "type": "color",
+        "id": "feature_description_color",
+        "label": "Feature Description Color",
+        "default": "#565e68"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Feature",
+        "type": "feature",
+        "settings": [
+          {
+            "type": "text",
+            "id": "image",
+            "label": "Image",
+            "info": "Upload image to [Settings > Files](/admin/settings/files) and paste the link here. (Cmd+Click or Ctrl+Click to open in new tab)"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading"
+          },
+          {
+            "type": "range",
+            "id": "feature_heading_width",
+            "label": "Max. Width",
+            "unit": "px",
+            "min": 160,
+            "max": 280,
+            "step": 2,
+            "default": 234
+          },
+          {
+            "type": "textarea",
+            "id": "description",
+            "label": "Description"
+          },
+          {
+            "type": "range",
+            "id": "feature_description_width",
+            "label": "Max. Width",
+            "unit": "px",
+            "min": 160,
+            "max": 280,
+            "step": 2,
+            "default": 234
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "category": "Custom",
+        "name": "[Custom] Why Sprinly"
+      }
+    ]
+  }
+{% endschema %}

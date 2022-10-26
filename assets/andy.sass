@@ -1,0 +1,73 @@
+.plans
+    &.challenger
+        .select-plan-title
+            position: static
+            display: block
+            text-align: center
+            top: auto
+            left: auto
+            transform: none
+            margin: 1em 0 20px
+        .intro
+            display: block
+            text-align: center
+        .select-plan-group
+            padding: 0 0 0px
+        .rte
+            margin-bottom: 30px
+        .select-plan-group-item-title 
+            .break
+                font-size: 42px
+                display: inline-block
+        .select-plan-group-item-button
+            margin: 0
+        @media (max-width: 767.98px)
+            .select-plan-title
+                font-size: 32px
+                margin: 1em 0 10px
+            .intro
+                font-size: 20px
+            .select-plan-group-item
+                padding: 20px
+            .select-plan-group-item-button
+                margin: 20px 0 0
+
+.challenger
+    .meals        
+        .grid-product__link
+            &:hover
+                .product-title
+                    h3
+                        text-decoration: underline
+        .meal-selection-product-body
+            .product-title
+                min-height: 60px
+                @media screen and (max-width: 767px)
+                    min-height: auto
+                    height: auto
+                    margin: 0 0 20px
+                h3
+                    font-size: 21px
+                p
+                    font-size: 16px
+            .meal-tags
+                display: block
+                text-align: left
+                line-height: 1.2
+                min-height: 44px
+                span
+                    font-size: 14px
+                    color: #999
+                    display: inline-block
+                    margin: 0 5px 0 0
+                    text-transform: lowercase
+                    font-weight: 500
+                    &:after
+                        display: inline-block
+                        content: ', '
+                    &:first-child
+                        &:first-letter
+                            text-transform: uppercase
+                    &:last-child
+                        &:after
+                            display: none

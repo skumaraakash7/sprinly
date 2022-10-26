@@ -1,0 +1,88 @@
+{%- if section.settings.title -%}
+  <div class="section-title text-center page-width">
+    <p class="h2">
+      {{ section.settings.title }}
+    </p>
+  </div>
+{%- endif -%}
+
+<div class="do-good--container page-width">
+    {%- if section.settings.image -%}
+        <div class="do-good__image">
+            {%- assign img_url = section.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                <img class="lazyload"
+                    data-src="{{ img_url }}"
+                    data-widths="[180, 360, 540, 750]"
+                    data-aspectratio="{{ section.settings.image.aspect_ratio }}"
+                    data-sizes="auto"
+                    alt="{{ section.settings.image_alt }}">
+        </div>
+    {%- endif -%}
+
+    <div class="do-good__copy">
+        {%- if section.settings.badge -%}
+            <div class="do-good__copy--badge">
+                {%- assign badge_url = section.settings.badge | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                <img class="lazyload"
+                    data-src="{{ badge_url }}"
+                    data-widths="[180, 360, 540, 750]"
+                    data-aspectratio="{{ section.settings.badge.aspect_ratio }}"
+                    data-sizes="auto"
+                    alt="{{ section.settings.badge_alt }}">
+            </div>
+        {%- endif -%}
+        {%- if section.settings.headline != blank -%}
+            <h3>{{ section.settings.headline }}</h3>
+        {%- endif -%}
+        {%- if section.settings.body != blank -%}
+            {{ section.settings.body }}
+        {%- endif -%}
+    </div>
+</div>
+
+{% schema %}
+{
+    "name": "Do Good",
+    "class": "do-good",
+    "settings": [
+        {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Page headline"
+        },
+        {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+        },
+        {
+            "type": "text",
+            "id": "image_alt",
+            "label": "Image Alt Tag"
+        },
+        {
+            "type": "image_picker",
+            "id": "badge",
+            "label": "Recognition Badge"
+        },
+        {
+            "type": "text",
+            "id": "badge_alt",
+            "label": "Recognition badge alt text"
+        },
+        {
+            "type": "text",
+            "id": "headline",
+            "label": "Headline",
+            "default": "Positive Impact"
+        },
+        {
+            "type": "richtext",
+            "id": "body",
+            "label": "Description"
+        }
+
+    ]
+}
+{% endschema %}

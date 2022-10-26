@@ -1,0 +1,256 @@
+<div class="page-width page-content" data-aos>
+  {%- assign count = 0 | plus:0-%}
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'rich-text' -%}
+      {%- render 'page-block-rich-text', block: block , count: count-%}
+    {%- endif -%}
+  {%- endfor -%}
+  <br>
+  <div>
+    {%- liquid
+      assign blocks = section.blocks | sort: 'collection.all_products_count'
+
+      if section.settings.display_type == 'all'
+        case section.settings.sort
+          when 'products_high' or 'products_low'
+            assign collections = collections | sort: 'all_products_count'
+          when 'date' or 'date_reversed'
+            assign collections = collections | sort: 'published_at'
+        endcase
+
+        if section.settings.sort == 'products_low' or section.settings.sort == 'date' or section.settings.sort == 'alphabetical'
+          for collection in collections
+            unless collection.title == blank
+              assign count = count | plus:1
+              render 'collection-grid-item', collection: collection, count: count
+            endunless
+          endfor
+        else
+          for collection in collections reversed
+            unless collection.title == blank
+              assign count = count | plus:1
+              render 'collection-grid-item', collection: collection, count: count
+            endunless
+          endfor
+        endif
+
+      else
+
+        for block in section.blocks
+          if block.type == 'collection'
+            assign collection = collections[block.settings.collection]
+            unless collection.title == blank
+              assign count = count | plus:1
+              render 'collection-grid-item', collection: collection, count: count
+            endunless
+          endif
+        endfor
+      endif
+    -%}
+  </div>
+</div>
+
+<script>
+$('document').ready(function(){
+
+  const menuDesign  =   getParam( `design` );
+
+  if ( typeof menuDesign !== 'undefined' && menuDesign ) {
+
+    sessionStorage.setItem( `__menuDesign__`, menuDesign );
+    sessionStorage.setItem( `__themeID__`, themeId );
+
+  }
+
+  const getDesignMenu =   sessionStorage.getItem( `__menuDesign__` );
+  const getThemeID    =   sessionStorage.getItem( `__themeID__` );
+
+  if ( typeof getDesignMenu !== 'undefined' && getDesignMenu == 'v2' && typeof getThemeID !== 'undefined' && getThemeID == themeId ) {
+
+    $( `.meals .meal-selection-product.menu-v1` ).hide();
+    $( `.meals .meal-selection-product.menu-v2` ).show();
+
+    $( `.main-menu.site-nav__link[href="/pages/menus"], .site-nav__link[href="/pages/menus"]` ).attr( `href`, `/pages/menus?design=${ getDesignMenu }` );
+
+  }
+
+  //var acc = document.getElementsByClassName("accordion");
+  //var i;
+  $(`.panel_plus_1`).hide();
+  $(`.panel_2`).hide();
+  $(`.panel_minus_2`).hide();
+  $(`.panel_3`).hide();
+  $(`.panel_minus_3`).hide();
+  $(`.panel_4`).hide();
+  $(`.panel_minus_4`).hide();
+  //$(`#panel_5`).hide();
+  //$(`.panel_minus_5`).hide();
+
+/*
+  for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+      //this.classList.toggle("active");
+      if(i==1) $(`#panel_1`).toggle();
+      if(i==2) $(`#panel_2`).toggle();
+      if(i==3) $(`#panel_3`).toggle();
+      if(i==4) $(`#panel_4`).toggle();
+
+      var panel = this.nextElementSibling;
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      }
+
+    });
+  }
+  */
+
+  //$(".first_accodian").trigger("click");
+});
+
+function getParam ( paramIs ) {
+  try {
+
+    const url = location.href;
+    const objURL = new URL(url);
+    const c = objURL.searchParams.get( paramIs );
+    return c;
+
+  }
+  catch ( err ) {
+    console.log ( 'ERROR getParam', err.message );
+  }
+}
+</script>
+
+{% schema %}
+  {
+    "name": "Collections list page",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "All of your collections are listed by default. To customize your list, choose 'Selected' and add collections."
+      },
+      {
+        "type": "radio",
+        "id": "display_type",
+        "label": "Select collections to show",
+        "default": "all",
+        "options": [
+          {
+            "value": "all",
+            "label": "All"
+          },
+          {
+            "value": "selected",
+            "label": "Selected"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "sort",
+        "label": "Sort collections by:",
+        "info": "Sorting only applies when 'All' is selected",
+        "default": "alphabetical",
+        "options": [
+          {
+            "value": "products_high",
+            "label": "Product count, high to low"
+          },
+          {
+            "value": "products_low",
+            "label": "Product count, low to high"
+          },
+          {
+            "value": "alphabetical",
+            "label": "Alphabetically, A-Z"
+          },
+          {
+            "value": "alphabetical_reversed",
+            "label": "Alphabetically, Z-A"
+          },
+          {
+            "value": "date",
+            "label": "Date, old to new"
+          },
+          {
+            "value": "date_reversed",
+            "label": "Date, new to old"
+          }
+        ]
+      }
+    ],
+    "blocks": [
+      {
+        "type": "rich-text",
+        "name": "Rich text",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Rich text block"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text",
+            "default": "<p>Use this section for any descriptive text you need to fill out your pages or to add introductory headings between other blocks.</p>"
+          },
+          {
+            "type": "select",
+            "id": "align_text",
+            "label": "Text alignment",
+            "default": "center",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "center",
+                "label": "Centered"
+              }
+            ]
+          },
+          {
+            "type": "checkbox",
+            "id": "narrow_column",
+            "label": "Narrow column",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "enlarge_text",
+            "label": "Enlarge text"
+          },
+          {
+            "type": "checkbox",
+            "id": "alt",
+            "label": "Use alternate section color"
+          }
+        ]
+      },
+      {
+        "type": "collection",
+        "name": "Collection",
+        "settings": [
+          {
+            "label": "Collection",
+            "id": "collection",
+            "type": "collection"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var element = document.getElementById('shopify-section-list-collections-template');
+    element.classList.add('challenger');
+  }, false);
+</script>

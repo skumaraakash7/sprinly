@@ -1,0 +1,240 @@
+<div
+  class="meal-selection-product-modal modal fade"
+  id="modal_v2_{{ product.id }}"
+  tabindex="-1"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
+  >
+    <div class="modal-content">
+      <button
+        type="button"
+        class="remove"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      >
+        X
+      </button>
+      <div class="modal-header">
+        <img class="mobile lazyload"
+          src="{{ product.media[0] | img_url: 'master' }}"
+          data-src="{{ product.media[0] | img_url: 'master' }}"
+          alt="{{ product.title | escape }}"
+        />
+        <img class="desktop lazyload"
+          src="{% if product.media[1] %}{{ product.media[1] | img_url: 'master' }}{% else %}{{ product.media[0] | img_url: 'master' }}{% endif %}"
+          data-src="{% if product.media[1] %}{{ product.media[1] | img_url: 'master' }}{% else %}{{ product.media[0] | img_url: 'master' }}{% endif %}"
+          alt="{{ product.title | escape }}"
+        />
+      </div>
+      <div class="modal-body">
+        <div class="product-info">
+          <h3 class="product-title">
+            {{ product_title[0] }}
+          </h3>
+          {% if product_title[1] %}
+            <p class="product-subtitle">
+              with {{ product_title[1] }}
+            </p>
+          {% endif %}
+        </div>
+        <div class="product-description">
+          {{ product.description }}
+        </div>
+        <div class="product-features">
+          {%- for tag in product.tags -%}
+            {%- case tag -%}
+              {%- when 'feature:Eat me earlier' -%}
+                <div class="feature">
+                  <img
+                    class="lazyload"
+                    src="https://cdn.shopify.com/s/files/1/0506/7040/3779/files/icon_eatearlier.svg?v=1608751203"
+                    data-src="https://cdn.shopify.com/s/files/1/0506/7040/3779/files/icon_eatearlier.svg?v=1608751203"
+                    alt="Eat Me Earlier"
+                  />
+                  <span>Eat Me Earlier</span>
+                </div>
+              {%- when 'feature:Oil free' -%}
+                <div class="feature">
+                  <img
+                    class="lazyload"
+                    src="https://cdn.shopify.com/s/files/1/0506/7040/3779/files/icon_oilfree.svg?v=1608751203"
+                    data-src="https://cdn.shopify.com/s/files/1/0506/7040/3779/files/icon_oilfree.svg?v=1608751203"
+                    alt="Oil Free"
+                  />
+                  <span>Oil Free</span>
+                </div>
+              {%- when 'feature:Soy free' -%}
+                <div class="feature">
+                  <img
+                    class="lazyload"
+                    src="https://cdn.shopify.com/s/files/1/0506/7040/3779/files/icon_soyfree.svg?v=1608751203"
+                    data-src="https://cdn.shopify.com/s/files/1/0506/7040/3779/files/icon_soyfree.svg?v=1608751203"
+                    alt="Soy free"
+                  />
+                  <span>Soy free</span>
+                </div>
+              {%- when 'feature:No refined sugar' -%}
+                <div class="feature">
+                  <img
+                    class="lazyload"
+                    src="https://cdn.shopify.com/s/files/1/0506/7040/3779/files/icon_norefinedsugar.svg?v=1608751203"
+                    data-src="https://cdn.shopify.com/s/files/1/0506/7040/3779/files/icon_norefinedsugar.svg?v=1608751203"
+                    alt="No refined sugar"
+                  />
+                  <span>No refined sugar</span>
+                </div>
+              {%- when 'feature:Nut free' -%}
+                <div class="feature">
+                  <img
+                    class="lazyload"
+                    src="https://cdn.shopify.com/s/files/1/0506/7040/3779/files/icon_nutfree.svg?v=1608751203"
+                    data-src="https://cdn.shopify.com/s/files/1/0506/7040/3779/files/icon_nutfree.svg?v=1608751203"
+                    alt="Nut free"
+                  />
+                  <span>Nut free</span>
+                </div>
+              {%- when 'feature:Plant-based' -%}
+                <div class="feature">
+                  <img
+                    class="lazyload"
+                    src="https://cdn.shopify.com/s/files/1/0506/7040/3779/files/icon_plantbased.svg?v=1608751203"
+                    data-src="https://cdn.shopify.com/s/files/1/0506/7040/3779/files/icon_plantbased.svg?v=1608751203"
+                    alt="Plant-based"
+                  />
+                  <span>Plant-based</span>
+                </div>
+              {%- when 'feature:Gluten free' -%}
+                <div class="feature">
+                  <img
+                    class="lazyload"
+                    src="https://cdn.shopify.com/s/files/1/0506/7040/3779/files/icon_glutenfree.svg?v=1608751203"
+                    data-src="https://cdn.shopify.com/s/files/1/0506/7040/3779/files/icon_glutenfree.svg?v=1608751203"
+                    alt="Gluten free"
+                  />
+                  <span>Gluten free</span>
+                </div>
+              {%- when 'feature:Spicy' -%}
+                <div class="feature">
+                  <img
+                    class="lazyload"
+                    src="https://cdn.shopify.com/s/files/1/0506/7040/3779/files/icon_spicy_updated-1.svg?v=1658153494"
+                    data-src="https://cdn.shopify.com/s/files/1/0506/7040/3779/files/icon_spicy_updated-1.svg?v=1658153494"
+                    alt="Spicy"
+                  />
+                  <span>Spicy</span>
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+        <div class="product-nutrition">
+          {%- if product.metafields.global.ingredients -%}
+            <div class="product-nutrition-ingredients">
+              <h4 class="product-nutrition-ingredients-heading">
+                INGREDIENTS
+              </h4>
+              <p class="product-nutrition-ingredients-body">
+                {{ product.metafields.global.ingredients }}
+              </p>
+            </div>
+          {%- endif -%}
+          <div class="product-nutrition-data">
+            <ul class="product-nutrition-data-list">
+              {%- if product.metafields.global.serving_size -%}
+                <li class="product-nutrition-data-list-item">
+                  <span>Serving Size</span>
+                  <span class="dots"></span>
+                  <span>
+                    {{ product.metafields.global.serving_size }}
+                  </span>
+                </li>
+              {%- endif -%}
+              {%- if product.metafields.global.calories -%}
+                <li class="product-nutrition-data-list-item">
+                  <p>Calories</p>
+                  <span class="dots"></span>
+                  <p>
+                    {{ product.metafields.global.calories }}
+                  </p>
+                </li>
+              {%- endif -%}
+              {%- if product.metafields.global.calories_from_fat -%}
+                <li class="product-nutrition-data-list-item">
+                  <span>Calories from Fat</span>
+                  <span class="dots"></span>
+                  <span>
+                    {{ product.metafields.global.calories_from_fat }}
+                  </span>
+                </li>
+              {%- endif -%}
+              {%- if product.metafields.global.cholesterol -%}
+                <li class="product-nutrition-data-list-item">
+                  <span>Cholesterol</span>
+                  <span class="dots"></span>
+                  <span>
+                    {{ product.metafields.global.cholesterol }} mg
+                  </span>
+                </li>
+              {%- endif -%}
+              {%- if product.metafields.global.protein -%}
+                <li class="product-nutrition-data-list-item">
+                  <span>Protein</span>
+                  <span class="dots"></span>
+                  <span>
+                    {{ product.metafields.global.protein }} g
+                  </span>
+                </li>
+              {%- endif -%}
+              {%- if product.metafields.global.carbs -%}
+                <li class="product-nutrition-data-list-item">
+                  <span>Carbs</span>
+                  <span class="dots"></span>
+                  <span>
+                    {{ product.metafields.global.carbs }} g
+                  </span>
+                </li>
+              {%- endif -%}
+              {%- if product.metafields.global.sugars -%}
+                <li class="product-nutrition-data-list-item">
+                  <span>Sugars</span>
+                  <span class="dots"></span>
+                  <span>
+                    {{ product.metafields.global.sugars }} g
+                  </span>
+                </li>
+              {%- endif -%}
+              {%- if product.metafields.global.dietary_fiber -%}
+                <li class="product-nutrition-data-list-item">
+                  <span>Fiber</span>
+                  <span class="dots"></span>
+                  <span>
+                    {{ product.metafields.global.dietary_fiber }} g
+                  </span>
+                </li>
+              {%- endif -%}
+              {%- if product.metafields.global.fat -%}
+                <li class="product-nutrition-data-list-item">
+                  <span>Fat</span>
+                  <span class="dots"></span>
+                  <span>
+                    {{ product.metafields.global.fat }} g
+                  </span>
+                </li>
+              {%- endif -%}
+              {%- if product.metafields.global.sodium -%}
+                <li class="product-nutrition-data-list-item">
+                  <span>Sodium</span>
+                  <span class="dots"></span>
+                  <span>
+                    {{ product.metafields.global.sodium }} mg
+                  </span>
+                </li>
+              {%- endif -%}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

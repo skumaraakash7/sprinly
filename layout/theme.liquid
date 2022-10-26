@@ -1,0 +1,444 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}" dir="{{ settings.text_direction }}">
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <meta name="theme-color" content="{{ settings.color_button }}">
+
+    <link rel="canonical" href="{{ canonical_url }}">
+    <!--<link rel="canonical" href="{{ canonical_url }}">-->
+    <link href="https://cdn.shopify.com" rel="preconnect">
+    <link href="https://fonts.shopifycdn.com" rel="preconnect">
+    <link href="https://productreviews.shopifycdn.com" rel="dns-prefetch">
+    <link href="https://ajax.googleapis.com" rel="dns-prefetch">
+    <link href="https://maps.googleapis.com" rel="dns-prefetch">
+    <link href="https://maps.gstatic.com" rel="dns-prefetch">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Google Optimize -->
+    <script src="https://www.googleoptimize.com/optimize.js?id=OPT-N247DS6"></script>
+
+    <!-- Start VWO Async SmartCode -->
+    <!--
+    <script type='text/javascript'>
+      window._vwo_code = window._vwo_code || (function(){
+      var account_id=249239,
+      settings_tolerance=2000,
+      library_tolerance=2500,
+      use_existing_jquery=true,
+      is_spa=1,
+      hide_element='body', 
+  
+      /* DO NOT EDIT BELOW THIS LINE */
+      f=false,d=document,code={use_existing_jquery:function(){return use_existing_jquery;},library_tolerance:function(){return library_tolerance;},finish:function(){if(!f){f=true;var a=d.getElementById('_vis_opt_path_hides');if(a)a.parentNode.removeChild(a);}},finished:function(){return f;},load:function(a){var b=d.createElement('script');b.src=a;b.type='text/javascript';b.innerText;b.onerror=function(){_vwo_code.finish();};d.getElementsByTagName('head')[0].appendChild(b);},init:function(){
+      window.settings_timer=setTimeout('_vwo_code.finish()',settings_tolerance);var a=d.createElement('style'),b=hide_element?hide_element+'{opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important;}':'',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else a.appendChild(d.createTextNode(b));h.appendChild(a);this.load('https://dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&f='+(+is_spa)+'&r='+Math.random());return settings_timer; }};window._vwo_settings_timer = code.init(); return code; }());
+    </script>
+    -->
+    <!-- End VWO Async SmartCode -->
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5B5J6JM');</script>
+    <!-- End Google Tag Manager -->
+
+    {%- if settings.favicon != blank -%}
+      <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png"/>
+    {%- endif -%}
+
+    {%- render 'seo-title' -%}
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    {%- render 'social-meta-tags' -%}
+
+    {% render 'css-variables' %}
+
+    {% render 'js-variables' %}
+
+    {{ content_for_header }}
+    
+    {% comment %} Theme {% endcomment %}
+    <script>
+      var theme = {
+        stylesheet: "{{ 'theme.css' | asset_url }}",
+        template: {{ template | json }},
+        routes: {
+          home: "{{ routes.root_url }}",
+          cart: "{{ routes.cart_url }}",
+          cartAdd: "{{ routes.cart_add_url | append: '.js'}}",
+          cartChange: "{{ routes.cart_change_url }}"
+        },
+        vue: {
+          availableApps: []
+        },
+        strings: {
+          addToCart: {{ 'products.product.add_to_cart' | t | json }},
+          soldOut: {{ 'products.product.sold_out' | t | json }},
+          unavailable: {{ 'products.product.unavailable' | t | json }},
+          regularPrice: {{ 'products.general.regular_price' | t | json }},
+          salePrice: {{ 'products.general.sale_price' | t | json }},
+          stockLabel: {{ 'products.product.stock_label' | t: count: '[count]' | json }},
+          willNotShipUntil: {{ 'products.product.will_not_ship_until' | t: date: '[date]' | json }},
+          willBeInStockAfter: {{ 'products.product.will_be_in_stock_after' | t: date: '[date]' | json }},
+          waitingForStock: {{ 'products.product.waiting_for_stock' | t | json }},
+          cartItems: {{ 'cart.general.item_count' | t: count: '[count]' | json }},
+          cartConfirmDelete: {{ 'cart.general.delete_confirm' | t | json }},
+          cartTermsConfirmation: {{ 'cart.general.terms_confirm' | t | json }}
+        },
+        settings: {
+          dynamicVariantsEnable: true,
+          cartType: {{ settings.cart_type | json }},
+          moneyFormat: {{ shop.money_format | json }},
+          quickView: {{ settings.quick_shop_enable }},
+          hoverProductGrid: {{ settings.product_hover_image }},
+          themeName: 'Streamline',
+          themeVersion: "3.4.2"
+        }
+      };
+
+      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+
+      const themeId   =   `{{ theme.id }}`;
+
+      $(document).ready(function () {
+
+        const getDesignMenu =   sessionStorage.getItem( `__menuDesign__` );
+        const getThemeID    =   sessionStorage.getItem( `__themeID__` );
+
+        if ( typeof getDesignMenu !== 'undefined' && getDesignMenu && typeof getThemeID !== 'undefined' && getThemeID == themeId ) {
+
+          $( `.main-menu.site-nav__link[href="/pages/menus"], .site-nav__link[href="/pages/menus"]` ).attr( `href`, `/pages/menus?design=${ getDesignMenu }` );
+
+        }
+
+      });
+    </script>
+
+    <script>
+    const getUrlParam = function(name){
+      name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+      var regexS = "[\\?&]" + name + "=([^&#]*)";
+      var regex = new RegExp(regexS);
+      var results = regex.exec(window.location.search);
+      if(results == null)
+        return "";
+      else
+        return decodeURIComponent(results[1].replace(/\+/g, " "));
+    };
+
+    if(getUrlParam('email_page')) sessionStorage.setItem('email_page', getUrlParam('email_page'));
+    if(getUrlParam('nav')) sessionStorage.setItem('nav_menu', getUrlParam('nav')); //navigation A/B test
+    </script>
+
+    {%- render 'critical-css' -%}
+    {%- render 'load-css' -%}
+    {{ 'tap-main.min.css' | asset_url | stylesheet_tag }}
+
+    {% if template contains 'email' %}
+      <!--{{ 'tap-subscription.min.css' | asset_url | stylesheet_tag }} ?? -->
+      {{ 'tap-index.min.css' | asset_url | stylesheet_tag }}
+    {% endif %}
+    
+    {% if page.handle contains 'menus' or page.handle contains 'plans' %}
+      {{ 'tap-meals.min.css' | asset_url | stylesheet_tag }}
+      {{ 'andy.css' | asset_url | stylesheet_tag }}
+      {%- section 'sticky-promo-bar' -%}
+    {% endif %}
+
+    {% if page.handle contains 'plans' or page.handle contains 'email' %}
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <script src="{{ 'plans.min.js' | asset_url }}"></script>
+       <!--{{ 'tap-meals.min.css' | asset_url | stylesheet_tag }}-->
+    {% endif %}
+    
+    {% if template contains 'index' %}
+      {{ 'tap-index.min.css' | asset_url | stylesheet_tag }}
+    {% endif %}
+
+    <script src="{{ 'vendor-v3.js' | asset_url | split: '?' | first }}" defer="defer"></script>
+    {%- if shop.enabled_currencies.size > 1 -%}
+      <link rel="preload" as="style" href="{{ 'currency-flags.css' | asset_url | split: '?' | first }}" onload="this.onload=null;this.rel='stylesheet'">
+      <link rel="stylesheet" href="{{ 'currency-flags.css' | asset_url | split: '?' | first }}">
+    {%- endif -%}
+
+    <script src="{{ 'theme.min.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'tap-index.min.js' | asset_url }}" defer="defer"></script> <!--problem if I disable -->
+    
+    {%- if request.page_type contains 'customers/' -%}
+      <script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script>
+      <!--<script src="{{ 'tap-account.min.js' | asset_url }}" defer="defer"></script>-->
+    {%- endif -%}
+
+    <!-- Start of Littledata - Fix Google Analytics Script -->
+    {% include 'LittledataLayer' %}
+    <!-- End of Littledata - Fix Google Analytics Script -->
+
+    <!-- Shareasale -->
+    <script src="https://www.dwin1.com/19038.js" type="text/javascript" defer="defer"></script>
+    <!-- /Shareasale -->
+
+    {% comment %}
+    <!--[if (gt IE 9)|!(IE)]><!-->
+    <script src="{{ 'lazysizes.min.js' | asset_url }}" async="async"></script>
+    <!--[if lte IE 9]><!-->
+    <script src="{{ 'lazysizes.min.js' | asset_url }}"></script>
+    {% endcomment %}
+
+    {% render 'judgeme_core' %}
+</head>
+
+  <body class="template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}{% if request.path == '/challenge' %} template-challange{% endif %}{% if settings.cart_type == 'sticky' and cart.item_count > 0 and template != 'cart' %} body--sticky-cart-open{% endif %}{% if cart.item_count > 0 %} cart-has-items{% endif %}" ontouchstart="return true;" data-transitions="{{settings.animate_page_transitions}}" data-animate_underlines="true" data-animate_images="{{ settings.animate_images }}" data-button_style="{{settings.button_style}}" data-type_product_capitalize="{{settings.type_product_capitalize}}" data-type_header_capitalize="{{settings.type_header_capitalize}}" data-product_image_scatter="{{settings.product_image_scatter}}" data-button_type_style="{{settings.button_type_style}}">
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5B5J6JM"
+                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div aria-hidden="true" class="overscroll-loader" id="OverscrollLoader">
+      <svg aria-hidden="true" class="icon icon--full-color icon-loader--full-color" focusable="false" role="presentation"><path class="icon-loader__close" d="M19 17.61l27.12 27.13m0-27.12L19 44.74"/><path class="icon-loader__path" d="M40 90a40 40 0 1 1 20 0"/></svg>
+    </div>
+
+    <div class="root">
+
+      {%- if settings.animate_page_transitions -%}
+        <script>window.setTimeout(function() { document.body.className += " loaded"; }, 25);</script>
+      {%- endif -%}
+
+      <!-- Redirect from shopify 'cart' to recharge checkout unless cart contains only gift cards -->
+      <!-- Commenting the code below out will allow all items to go to shopify cart and checkout -->
+
+      {%- if template contains 'cart' %}
+        {% for item in cart.items  %}
+          {% unless item.product.title contains "Gift Cards" %}
+            <script>
+              document.addEventListener("DOMContentLoaded", function(event) {
+                //window.redirectToRechargeCart()
+              });
+            </script>
+          {% endunless %}
+        {% endfor %}
+      {% endif %}
+
+      {%- liquid
+      assign loader_size = settings.desktop_loader_width | append: 'x'
+      assign loader_size_mobile = settings.mobile_loader_width | append: 'x'
+      -%}
+
+      <div class="splash-screen">
+        {%- if settings.logo_loader_image != blank -%}
+          <div class="splash-screen__loader">
+            <img class="loader-logo__img lazyload" src="{{ settings.logo_loader_image | img_url: loader_size }}" srcset="{{ settings.logo_loader_image | img_url: loader_size }} 1x, {{ settings.logo_loader_image | img_url: loader_size, scale: 2 }} 2x" aria-hidden="true">
+          </div>
+        {%- else -%}
+          <span class="loader-text">{{ 'general.accessibility.loading' | t }}</span>
+        {%- endif -%}
+      </div>
+
+      <a class="in-page-link visually-hidden skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
+      {%- if template contains 'subscription' -%}
+        <script>
+            //window.location.href = '/pages/plans';
+            let test = true;
+            const getCookie = function(cname) {
+              let name = cname + "=";
+              let decodedCookie = decodeURIComponent(document.cookie);
+              let ca = decodedCookie.split(';');
+              for(let i = 0; i <ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                  c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                  return c.substring(name.length, c.length);
+                }
+              }
+              return "";
+            }
+
+            let email = localStorage.getItem("customerEmail") || null;
+            if(test) console.log('1. email', email);
+            try{
+              if(email) {
+                if(!email.includes('@')) email = window.atob(email);
+              }else if(getCookie("user_email") && !email && !test){
+                email = getCookie("user_email");
+                if(email) localStorage.setItem('customerEmail', window.btoa(email));
+              }
+            }catch(error){
+              console.log(error);
+            }
+            if(test) console.log('2. email', email);
+
+            //redirects
+            window.location.href = '/pages/plans';
+        </script>
+        {% comment %}
+        {%- section 'header' -%}
+        <div id="PageContainer">
+          <div class="transition-body">
+            <main class="main-content" id="MainContent">
+              {{ content_for_layout }}
+            </main>
+          </div>
+        </div>
+        {% section 'footer-with-columns' %}
+        {% endcomment %}
+
+      {%- elsif template contains 'email' -%}
+          <div id="header2">{%- section 'header2' -%}</div>
+          <div id="header">{%- section 'header' -%}</div>
+          <script>
+          let nav = sessionStorage.getItem('nav_menu');
+          if(nav === "v2") {
+            $('#header').hide();
+          } else {
+            $('#header2').hide();
+          }
+          </script>
+        
+        <div id="PageContainer">
+          <div class="transition-body">
+            <main class="main-content" id="MainContent">
+              {{ content_for_layout }}
+            </main>
+          </div>
+        </div>
+        {% section 'footer-with-columns' %}
+
+      {%- elsif template contains 'product' %}
+        {%- if product.title contains 'Gift Cards' or request.design_mode %}
+          <div id="PageContainer">
+            <div class="transition-body">
+            <div id="header2">{%- section 'header2' -%}</div>
+            <div id="header">{%- section 'header' -%}</div>
+            <script>
+            let nav = sessionStorage.getItem('nav_menu');
+            if(nav === "v2") {
+              $('#header').hide();
+            } else {
+              $('#header2').hide();
+            }
+            </script>
+            <main class="main-content" id="MainContent">
+              {{ content_for_layout }}
+            </main>
+            {%- section 'social' -%}
+            {% if settings.simple_footer %}
+              {%- section 'footer' -%}
+            {% else %}
+              {% section 'footer-with-columns' %}
+            {% endif %}
+            </div>
+          </div>
+        {% else %}
+            <script>window.location.href = '/pages/plans';</script>
+        {% endif %}
+
+      {%- else -%}
+      <div class="page-container" id="PageContainer">
+        <div class="transition-body">
+          <div id="header2">{%- section 'header2' -%}</div>
+          <div id="header">{%- section 'header' -%}</div>
+          <script>
+          let nav = sessionStorage.getItem('nav_menu');
+          let page2 = window.location.href;
+          if(nav === "v2" && !page2.includes('plans')) {
+            $('#header').hide();
+          } else {
+            $('#header2').hide();
+          }
+          </script>
+
+          {%- if template contains 'menus' -%}
+           {% comment %}{%- section 'sticky-promo-bar' -%}{% endcomment %}
+          {%- endif -%}
+          <main class="main-content" id="MainContent">
+            {{ content_for_layout }}
+          </main>
+
+          {%- section 'social' -%}
+          {% if settings.simple_footer %}
+            {%- section 'footer' -%}
+          {% else %}
+            {% section 'footer-with-columns' %}
+          {% endif %}
+        </div>
+      </div>
+      {%- endif -%}
+
+      {%- section 'newsletter-popup' -%}
+
+      {%- render 'video-modal' -%}
+      {%- if settings.animate_page_transition_style == 'page-logo' -%}
+        <div class="loader-logo">
+          {%- if settings.logo_loader_image != blank -%}
+            <div class="splash-screen__loader">
+              <img class="loader-logo__img" src="{{ settings.logo_loader_image | img_url: loader_size }}" srcset="{{ settings.logo_loader_image | img_url: loader_size }} 1x, {{ settings.logo_loader_image | img_url: loader_size, scale: 2 }} 2x" aria-hidden="true">
+            </div>
+          {%- else -%}
+            <span class="loader-text">{{ 'general.accessibility.loading' | t }}</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+    <div id="ProductScreens"></div>
+    <div id="AvailabilityDrawer"></div>
+    {%- render 'photoswipe-template' -%}
+    {%- if settings.cart_type == 'drawer' -%}
+      {%- render 'cart-drawer' -%}
+    {%- endif -%}
+
+    {% if cart.item_count == 0 %}
+      <script type="text/javascript">
+        if (localStorage.getItem('cartExpire')) {
+          localStorage.removeItem('cartExpire'); //SH?
+        }
+      </script>
+    {% endif %}
+
+    {%- if template contains 'subscription' or 'email' -%}
+      {% comment %} UPLOAD PRODUCTION VERSION OF VUE ONCE DONE BUILDING {% endcomment %}
+      {% comment %} <script src="{{ 'tap-vue-theme.min.js' | asset_url }}"></script> {% endcomment %}
+      {% comment %} <script src="{{ 'tap-subscription.min.js' | asset_url }}" defer="defer"></script> {% endcomment %}
+    {%- endif -%}
+
+    <script>
+      var uri = window.location.search.substring(1);
+      var params = new URLSearchParams(uri);
+      var discount = params.get("discount") || "";
+      if(discount){
+        localStorage.setItem('discount', discount);
+      }
+
+      let email2 = params.get("email") || ""; //email2 to separate from email on plans and email page
+      if (email2){
+        email2 =  window.btoa(email2)
+        //console.log('0. email', email)
+        document.cookie = 'customerEmail' + "=" + email2 + ";" + ";path=/";
+        if (!localStorage.getItem("customerEmail")){
+          localStorage.setItem("customerEmail", email2)
+        }
+      }
+
+      //let fb_pixel_id = "{{ shop.metafields.facebook.pixel_id.value }}";
+      //let fb_access_token = "{{ shop.metafields.facebook.pixel_access_token.value }}";
+      //localStorage.setItem("fb_pixel_id","{{ shop.metafields.facebook.pixel_id.value }}");
+      //localStorage.setItem("fb_pixel_access_token","{{ shop.metafields.facebook.pixel_access_token.value }}");
+    </script>
+    {% comment %} Klaviyo {% endcomment %}
+    <script src="{{ 'klaviyo_subscribe.js' | asset_url }}"></script>
+   {% include 'smile-initializer' %}
+
+  {% include 'sumo' %}
+  {% comment %}{% render 'fp-pixel-integration' %}{% endcomment %}
+<!--Gorgias Chat Widget Start--><script id="gorgias-chat-widget-install-v2" src="https://config.gorgias.chat/gorgias-chat-bundle-loader.js?applicationId=11607"></script>
+<script id="gorgias-chat-shopify-install">!function(_){_.SHOPIFY_PERMANENT_DOMAIN="{{shop.permanent_domain}}",_.SHOPIFY_CUSTOMER_ID="{{customer.id}}",_.SHOPIFY_CUSTOMER_EMAIL="{{customer.email}}"}(window||{});</script><!--Gorgias Chat Widget End-->
+</body>
+</html>

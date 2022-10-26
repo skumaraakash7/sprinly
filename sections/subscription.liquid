@@ -1,0 +1,126 @@
+<script>window.location.href = "/pages/plans"</script>
+{%- assign app_type = 'subscription' -%}
+{% capture zipcodes %}{% render 'zipcodes' %}{% endcapture %}
+{% capture mealplans %}{{ collections[section.settings.meal_plans].products | json }}{% endcapture %}
+<div class="vue-subscription-app" data-app-type="{{ app_type }}" data-app-id="{{ section.id }}">
+  <script id="{{ section.id }}-{{ app_type }}">
+    window
+      .theme
+      .vue
+      .availableApps
+      .push({
+        type: "{{ app_type }}",
+        id: "{{ section.id }}",
+        data: {
+          "settings": {{ section.settings | json }},
+          "zipcodes": {{ zipcodes | split: ',' | json }},
+          "mealplans": {{ mealplans }},
+          "blocks": [{% for block in section.blocks %}{{ block.settings | json }},{% endfor %}]
+        }
+      });
+  </script>
+</div>
+
+{% schema %}
+{
+  "name": "Subscription",
+  "class": "subscription",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "textarea",
+      "id": "steps",
+      "label": "Steps (Comma Separated)",
+      "default": "Select Plan,Select Meals,Checkout"
+    },
+    {
+      "type": "collection",
+      "id": "meal_plans",
+      "label": "Meal Plans"
+    },
+    {
+      "type": "header",
+      "content": "Subscription Step 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "subscription_step_one_img",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "subscription_step_one_title",
+      "label": "Subscription Step One Title",
+      "default": "Organic plant-based meals are just one step away"
+    },
+    {
+      "type": "header",
+      "content": "Subscription Step 2"
+    },
+    {
+      "type": "text",
+      "id": "plans_subtitle",
+      "label": "Subtitle",
+      "default": "free delivery for all plans!"
+    },
+    {
+      "type": "text",
+      "id": "plans_bottom_text",
+      "label": "Bottom Text",
+      "default": "Skip weeks, switch plans or cancel anytime"
+    },
+    {
+      "type": "paragraph",
+      "content": "Use the blocks at the top of the bar to add FAQs"
+    },
+    {
+      "type": "text",
+      "id": "faq_heading",
+      "label": "FAQs Heading"
+    },
+    {
+      "type": "header",
+      "content": "Subscription Step 3"
+    },
+    {
+      "type": "text",
+      "id": "subscription_step_three_title",
+      "label": "Subscription Step Three Title",
+      "default": "Select your meals for delivery on:"
+    },
+    {
+      "type": "text",
+      "id": "subscription_step_three_subtitle",
+      "label": "Subscription Step Three Subtitle",
+      "default": "Organic, nutrient-dense ingredients that make eating healthy so delicious. New menu every week!"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Question",
+      "type": "question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer"
+        }
+      ]
+    }
+  ]
+}
+
+{% endschema %}

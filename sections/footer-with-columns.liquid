@@ -1,0 +1,241 @@
+<footer class="footer-with-columns" data-section-id="{{ section.id }}" data-section-type="footer-section">
+  <div class="page-width page-width-footer">
+    <div class="footer-grid">
+      <div class="footer-grid-item -social">
+        {%- if section.settings.show_social_icons -%}
+          <div class="footer-grid-item-block -icons">
+            <h4>Stay in Touch</h4>
+            <span class="icons-block">Connect With Us {%- render 'social-icons', social_class: 'footer-icons-social' -%}</span>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_newsletter -%}
+          <div class="footer-grid-item-block -newsletter" data-aos>
+            {%- if section.settings.newsletter_title != blank -%}
+              <h4>{{ section.settings.newsletter_title }}</h4>
+            {%- endif -%}
+
+            {%- if section.settings.newsletter_richtext != blank -%}
+              <div class="rte rte--block">
+                {{ section.settings.newsletter_richtext }}
+              </div>
+            {%- endif -%}
+
+            <div class="klaviyo-form-UYU6s9"></div>
+          </div>
+        {%- endif -%}
+      </div>
+      <div class="footer-grid-item -nav">
+        {%- if linklists.good-to-know-footer.links.size > 0 -%}
+          <div class="footer-grid-item-column -menu-one">
+            <h4>Good to Know!</h4>
+            <ul class="no-bullets footer-grid-item-column-list">
+              {%- for link in linklists.good-to-know-footer.links -%}
+                <li class="footer-grid-item-column-list-item">
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+        {%- if linklists.our-company-footer.links.size > 0 -%}
+          <div class="footer-grid-item-column -menu-two">
+            <h4>Our Company</h4>
+            <ul class="no-bullets footer-grid-item-column-list">
+              {%- for link in linklists.our-company-footer.links -%}
+                <li class="footer-grid-item-column-list-item">
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+        {%- if linklists.contact-us-footer.links.size > 0 -%}
+          <div class="footer-grid-item-column -menu-three">
+            <h4>Contact Us</h4>
+            <ul class="no-bullets footer-grid-item-column-list">
+              <li class="footer-grid-item-column-list-item">
+                {{ section.settings.contact_copy }}
+              </li>
+              {%- for link in linklists.contact-us-footer.links -%}
+                {%- assign url = "" -%}
+                {%- if link.url contains "?sms=" -%}
+                  {%- assign newUrl = "sms:" -%}
+                  {%- assign phone_number = link.url | remove: "/?sms=" -%}
+                  {%- assign url = newUrl | append: phone_number -%}
+
+                {%- endif -%}
+                <li class="footer-grid-item-column-list-item">
+                  <a class="footer-icon" href="{%- if url != blank -%}{{ url }}{%- else -%}{{ link.url }}{%- endif -%}" target="_blank">
+                    {% if forloop.index == 1 %}
+                      <i class="footer-icon-text"></i>
+                    {% elsif forloop.index == 2 %}
+                      <i class="footer-icon-call"></i>
+                    {% elsif forloop.index == 3 %}
+                      <i class="footer-icon-email"></i>
+                    {% elsif forloop.index == 4 %}
+                      <i class="footer-icon-faq"></i>
+                    {% endif %}
+                    {{ link.title }}
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+    <div class="footer-mobile">
+      <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingOne">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+              <h4>Good to Know!</h4>
+            </button>
+          </h2>
+          <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+              <ul class="no-bullets footer-grid-item-column-list">
+                {%- for link in linklists.good-to-know-footer.links -%}
+                  <li class="footer-grid-item-column-list-item">
+                    <a href="{{ link.url }}">{{ link.title }}</a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+              <h4>Our Company</h4>
+            </button>
+          </h2>
+          <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+              <ul class="no-bullets footer-grid-item-column-list">
+                {%- for link in linklists.our-company-footer.links -%}
+                  <li class="footer-grid-item-column-list-item">
+                    <a href="{{ link.url }}">{{ link.title }}</a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingThree">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+              <h4>Contact Us</h4>
+            </button>
+          </h2>
+          <div id="flush-collapseThree" class="accordion-collapse collapsed show" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+              <ul class="no-bullets footer-grid-item-column-list">
+                <li class="footer-grid-item-column-list-item">
+                  {{ section.settings.contact_copy }}
+                </li>
+                {%- for link in linklists.contact-us-footer.links -%}
+                  <li class="footer-grid-item-column-list-item">
+                    <a class="footer-icon" href="{{ link.url }}">
+                      {% if forloop.index == 1 %}
+                        <i class="footer-icon-text"></i>
+                      {% elsif forloop.index == 2 %}
+                        <i class="footer-icon-call"></i>
+                      {% elsif forloop.index == 3 %}
+                        <i class="footer-icon-email"></i>
+                      {% elsif forloop.index == 4 %}
+                        <i class="footer-icon-faq"></i>
+                      {% endif %}
+                      {{ link.title }}
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {%- if section.settings.show_copyright -%}
+      <div class="subfooter">
+        <span>
+          &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}
+          {%- if section.settings.copyright_text != blank -%}
+            {{ section.settings.copyright_text }}
+          {%- endif -%}
+        </span>
+      </div>
+    {%- endif -%}
+  </div>
+</footer>
+
+{% schema %}
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Newsletter"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_newsletter",
+        "label": "Show newsletter signup",
+        "info": "Customers who subscribe will have their email address added to the 'accepts marketing' [customer list](/admin/customers?query=&accepts_marketing=1).",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "newsletter_title",
+        "label": "Newsletter heading",
+        "default": "Sign up and save"
+      },
+      {
+        "type": "richtext",
+        "id": "newsletter_richtext",
+        "label": "Text",
+        "default": "<p>Let customers know about the key benefits of joining your newsletter.</p>"
+      },
+      {
+        "type": "text",
+        "id": "email_capture_placeholder",
+        "label": "Email Input Placeholder",
+        "default": "Enter your email"
+      },
+      {
+        "type": "text",
+        "id": "email_capture_button",
+        "label": "Email Input Placeholder",
+        "default": "SUBMIT"
+      },
+      {
+        "type": "header",
+        "content": "Additional footer content"
+      },
+      {
+        "type": "richtext",
+        "id": "contact_copy",
+        "label": "Contact Menu Column Text",
+        "default": "<p>Feedback or a question? Contact us at <a href=\"mailto:hello@sprinly.com\" target=\"_blank\">hello@sprinly.com<a></p>"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_social_icons",
+        "label": "Show social icons",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_copyright",
+        "label": "Show copyright",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "copyright_text",
+        "label": "Additional copyright text"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,159 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Version: Andy.
+deployment of order workflow(s) (select plan ad gather email - go to checkout from either page if other was already selected):
+-templates: page.email, page.plans
+-snippets: no-meals-checkout.liquid
+-sections: page-email, page-plans (existing modified)
+-pages: email (with template page.email), subscription (change: add redirect to page, line 1)
+-change text-and-image-1 section on home page to save email to session storage email2
+-->
+<script>
+  const getUrlParam = function(name){
+    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    var regexS = "[\\?&]" + name + "=([^&#]*)";
+    var regex = new RegExp(regexS);
+    var results = regex.exec(window.location.search);
+    if(results == null)
+      return "";
+    else
+      return decodeURIComponent(results[1].replace(/\+/g, " "));
+  };
+
+  const getCookie = function(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+  
+  const debug = false;
+  let spin = 0;
+  if(debug) console.log('page',page);
+  let email2 = sessionStorage.getItem('customerEmail2') || null;
+  let landing_page_traffic = getCookie("landing_page_traffic");
+  if(!email2 && getCookie("user_email")) {
+    email2 = getCookie("user_email");
+    sessionStorage.setItem('customerEmail2',email2);
+  }
+  
+  if(email2) if(!(email2.includes('@'))) email2 = null;
+  let plan = sessionStorage.getItem('mealPlanId') || null;
+  console.log('load',email2, plan);
+  
+  if(page === 'email' && email2  && !landing_page_traffic) window.location.href = '/pages/plans';
+  if(page === 'plans' && !email2) window.location.href = '/pages/email';
+  
+  document.addEventListener("DOMContentLoaded", function(event) {
+    //sessionStorage.removeItem('mealPlanId');//rem
+    //sessionStorage.removeItem('customerEmail2'); //rem
+    $('.btn_spin_e').hide();
+    $('.btn_spin_1').hide();
+    $('.btn_spin_2').hide();
+    $('.btn_spin_3').hide();
+    
+    /*
+    if((page === 'email') && !email2 && plan) {
+      //let btn = document.getElementById("btn_save_email");
+      let btn = document.getElementById("btn_email_text");
+      btn.innerHTML = 'CHECKOUT';
+      //btn.value = "CHECKOUT";
+      //btn.appendChild(document.createTextNode('CHECKOUT'));
+    }
+    */
+    if((page === 'email') && !email2) {
+      //let btn = document.getElementById("btn_save_email");
+      let btn = document.getElementById("btn_email_text");
+      btn.innerHTML = 'GET STARTED!';
+      //btn.value = "GET STARTED!";
+      //btn.appendChild(document.createTextNode('GET STARTED!'));
+    }
+  });
+      
+  const select_plan = (plan_id, plan_title, plan_i) => {
+    spin = plan_i;
+    if(debug) console.log('selected',plan_title, plan_id, spin);
+    sessionStorage.setItem('mealPlanId', plan_id);
+    if(email2) {
+      checkout(plan_id);
+    }else{
+      window.location.href = '/pages/email';
+    }
+  }
+    
+  const save_email = (section_id, email) => {
+    //console.log('save',email);
+    if(!email) return;
+    sessionStorage.setItem('customerEmail2',email); 
+    $(`#form_${section_id}`).submit();  
+    //console.log(email);
+    
+    if(plan) {
+      let plan_id = sessionStorage.getItem('mealPlanId');
+      checkout(plan_id);
+    }else{
+      window.location.href = '/pages/plans';
+    }
+  }
+    
+  async function checkout(variant_id) {
+    $('.select-plan-group-item-button').off('click');
+    $('.btn_spin_e').show();
+    $(`.btn_spin_${spin}`).show();
+	
+    data = {
+      "id": variant_id,
+      "quantity": 1,
+      "properties": {
+        "shipping_interval_frequency": '1',
+        "shipping_interval_unit_type": 'week',
+        "week_number": -1
+      }
+    }
+    await jQuery.post('/cart/clear.js');
+    jQuery.ajax({
+      type: 'POST',
+      url: '/cart/add.js',
+      data: data,
+      dataType: 'json',
+      success: function() {
+        reChargeProcessCart();
+      }
+    });
+  }
+  
+  function reChargeProcessCart() {
+    function get_cookie(name){ return( document.cookie.match('(^|; )'+name+'=([^;]*)')||0 )[2] }
+    do {
+            token=get_cookie('cart');
+    }
+    while(token == undefined);	var myshopify_domain='{{ shop.permanent_domain }}'
+    try { var ga_linker = ga.getAll()[0].get('linkerParam') } catch(err) { var ga_linker ='' }
+      var paramCustomer = "";
+      const email = sessionStorage.getItem("customerEmail2") || null;
+      const discount = localStorage.getItem("discount") || null;
+
+      if (email) {
+        paramCustomer += `&customerEmail=${email}`;
+      }
+
+      if (discount) {
+        paramCustomer += `&discount=${discount}`;
+      }
+      
+      sessionStorage.removeItem('mealPlanId');
+      sessionStorage.removeItem('customerEmail2');
+      
+      window.location.href = "https://checkout.sprinly.com/r/checkout?myshopify_domain="+myshopify_domain+"&cart_token="+token+"&"+ga_linker+paramCustomer;
+  }
+
+  
+</script>

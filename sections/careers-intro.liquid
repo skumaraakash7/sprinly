@@ -1,0 +1,99 @@
+{%- if section.settings.title -%}
+    <div class="section-title text-center page-width">
+        <p class="h2">
+        {{ section.settings.title }}
+        </p>
+    </div>
+{%- endif -%}
+
+{%- if section.blocks.size > 0 -%}
+    <div class="badges badges--{{ section.id }}">
+        {%- for block in section.blocks -%}
+            {%- if block.settings.link != blank -%}
+            <a href="{{ block.settings.link }}" target="_blank" >
+            {%- endif -%}
+            <div class="badges__item {% if block.settings.image != blank and block.settings.text != blank  %} badges__item--split{% endif %}">
+                {%- if block.settings.image != blank -%}
+                <div class="badges__item--image">
+                    {%- assign img_url = block.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                    <img class="lazyload"
+                        data-src="{{ img_url }}"
+                        data-widths="[180, 360, 540, 750]"
+                        data-aspectratio="{{ block.settings.image.aspect_ratio }}"
+                        data-sizes="auto"
+                        alt="{{ block.settings.image.alt }}">
+                </div>
+                {%- endif -%}
+
+                {%- if block.settings.text != blank -%}
+                    <div class="badges__item--text">
+                        {{ block.settings.text }}
+                    </div>
+                {%- endif -%}
+            </div>
+            {%- if block.settings.link -%}
+            </a>
+            {%- endif -%}
+        {% endfor %}
+    </div>
+{% endif %}
+<div class="page-width page-content">
+
+      <div class="careers-intro">
+        <h3>{{ section.settings.intro_headline  }}</h3>
+        {% if sections.settings.intro_copy == blank %}
+            {{ section.settings.intro_copy  }}
+        {% endif %}
+    </div>
+
+</div>
+
+{% schema %}
+    {
+        "name": "Careers Intro",
+        "class": "careers-intro",
+        "settings": [
+            {
+                "id": "title",
+                "type": "text",
+                "label": "Page Title",
+                "default": "Careers at Sprinly"
+            },
+            {
+                "id": "intro_headline",
+                "type": "text",
+                "label": "Intro Headline",
+                "default": "About Sprinly"
+            },
+            {
+                "id": "intro_copy",
+                "type": "richtext",
+                "label": "Intro copy",
+                "default": "<p>Sprinly is an organic plant-based meal delivery startup on a mission to make it as easy as possible for others to live healthier, happier lives. We launched in 2016 in Cleveland, and we’ve been working to rapidly scale our operations. Located in Valley View, Ohio, Sprinly currently delivers throughout the East Coast, Midwest, and parts of the South with plans to expand throughout the U.S. We’re continuing to expand, so if we’re not in your area yet, we will be soon!</p><p>We are looking for hardworking individuals who want to join a passionate team and help build a startup from the ground up. By working together, this is our chance to have a positive impact with our careers and create a healthier world for our society.</p>"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "badges",
+                "name": "Recognition Badges",
+                "settings": [
+                    {
+                        "id": "image",
+                        "type": "image_picker",
+                        "label": "Image"
+                    },
+                    {
+                        "id": "text",
+                        "type": "text",
+                        "label": "Text"
+                    },
+                    {
+                        "id": "link",
+                        "type": "url",
+                        "label": "Link"
+                    }
+                ]
+            }
+        ]
+    }
+{% endschema %}

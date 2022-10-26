@@ -1,0 +1,88 @@
+<div>
+  <div class="awards">
+    {%- render 'icon-awards' -%}
+
+    <div class="awards-content">
+      {% if section.settings.main_title %}
+        <h2 class="awards-title">{{ section.settings.main_title }}</h2>
+      {% endif %}
+      <div class="awards-wrapper">
+        {% for block in section.blocks %}
+          <div class="awards-item">
+            <img class="awards-item-image" alt="{{ block.settings.title }}" src="{{ block.settings.image }}"/>
+            <h3 class="awards-item-title">{{ block.settings.title }}</h3>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="awards-description">
+        {{ section.settings.description }}
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+{% style %}
+  .awards-background path {
+    fill: {{ section.settings.awards_background_color }};
+  }
+
+  .awards {
+    background-color: {{ section.settings.awards_background_color }};
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name":"Awards",
+  "class":"awards",
+  "settings":[
+    {
+      "type":"text",
+      "id":"main_title",
+      "label":"Heading"
+    },
+    {
+      "type":"richtext",
+      "id":"description",
+      "label":"Description"
+    },
+    {
+      "type":"header",
+      "content":"Colors"
+    },
+    {
+      "type":"color",
+      "id":"awards_background_color",
+      "label":"Background Color",
+      "default":"#F0F0F0"
+    }
+  ],
+  "blocks":[
+    {
+      "name":"Award",
+      "type":"award",
+      "settings":[
+        {
+          "type":"text",
+          "id":"image",
+          "label":"Image",
+          "info":"Upload image to [Settings > Files](/admin/settings/files) and paste the link here. (Cmd+Click or Ctrl+Click to open in new tab)"
+        },
+        {
+          "type":"text",
+          "id":"title",
+          "label":"Heading"
+        }
+      ]
+    }
+  ],
+  "presets":[
+    {
+      "category":"Custom",
+      "name":"Awards"
+    }
+  ]
+}
+{% endschema %}

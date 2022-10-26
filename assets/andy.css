@@ -1,0 +1,118 @@
+.delivery-date {
+  height:auto !important;
+  overflow:hidden !important;
+  border: 1px;
+  border-color: grey;
+}
+
+.progress-bar-m {
+    display: none;
+}
+@media screen and (max-width: 799px) {
+  .progress-bar-m {
+    display:block;
+  }
+}
+
+.plans.challenger .select-plan-title {
+  position: static;
+  display: block;
+  text-align: center;
+  top: auto;
+  left: auto;
+  -webkit-transform: none;
+          transform: none;
+  margin: 1em 0 20px;
+}
+
+.plans.challenger .intro {
+  display: block;
+  text-align: center;
+}
+
+.plans.challenger .select-plan-group {
+  padding: 0 0 0px;
+}
+
+.plans.challenger .rte {
+  margin-bottom: 30px;
+}
+
+.plans.challenger .select-plan-group-item-title .break {
+  font-size: 42px;
+  display: inline-block;
+}
+
+.plans.challenger .select-plan-group-item-button {
+  margin: 0;
+}
+
+@media (max-width: 767.98px) {
+  .plans.challenger .select-plan-title {
+    font-size: 32px;
+    margin: 1em 0 10px;
+  }
+  .plans.challenger .intro {
+    font-size: 20px;
+  }
+  .plans.challenger .select-plan-group-item {
+    padding: 20px;
+  }
+  .plans.challenger .select-plan-group-item-button {
+    margin: 20px 0 0;
+  }
+}
+
+.challenger .meals .grid-product__link:hover .product-title h3 {
+  text-decoration: underline;
+}
+
+.challenger .meals .meal-selection-product-body .product-title {
+  min-height: 60px;
+}
+
+@media screen and (max-width: 767px) {
+  .challenger .meals .meal-selection-product-body .product-title {
+    min-height: auto;
+    height: auto;
+    margin: 0 0 20px;
+  }
+}
+
+.challenger .meals .meal-selection-product-body .product-title h3 {
+  font-size: 21px;
+}
+
+.challenger .meals .meal-selection-product-body .product-title p {
+  font-size: 16px;
+}
+
+.challenger .meals .meal-selection-product-body .meal-tags {
+  display: block;
+  text-align: left;
+  line-height: 1.2;
+  min-height: 44px;
+}
+
+.challenger .meals .meal-selection-product-body .meal-tags span {
+  font-size: 14px;
+  color: #999;
+  display: inline-block;
+  margin: 0 5px 0 0;
+  text-transform: lowercase;
+  font-weight: 500;
+}
+
+.challenger .meals .meal-selection-product-body .meal-tags span:after {
+  display: inline-block;
+  content: ', ';
+}
+
+.challenger .meals .meal-selection-product-body .meal-tags span:first-child:first-letter {
+  text-transform: uppercase;
+}
+
+.challenger .meals .meal-selection-product-body .meal-tags span:last-child:after {
+  display: none;
+}
+/*# sourceMappingURL=andy.css.map */

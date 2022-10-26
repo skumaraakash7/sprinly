@@ -1,0 +1,98 @@
+
+<div class="index-section zero-margin life-as-client {% if section.settings.alt %} index-section--alt{% endif %} section-{{ section.id }}">
+  <div >
+    <h2 class="h2 text-center">{{ section.settings.title }}</h2>
+  </div>
+
+  <div class="slider-wrapper">
+    <div class="life-as--slideshow">
+
+      {% for block in section.blocks %}
+
+        {% if block.type == "large-image" %}
+          <div class="slideshow-slide--large">
+            <div class="slide-image--large">
+              <img class="slide-large--image lazyload" src="{{ block.settings.image | img_url: '400x'}}" data-src="{{ block.settings.image | img_url: '400x'}}" alt="{{ block.settings.image.alt }}" width="400px" height="400px">
+            </div>
+          </div>
+        {% endif %}
+
+        {% if block.type == "quad-image" %}
+          <div class="slideshow-slide--quad">
+            <div class="slide-image--quad">
+              <img class="slide-quad--image image-one lazyload" src="{{ block.settings.image | img_url: '200x'}}" data-src="{{ block.settings.image | img_url: '200x'}}" alt="{{ block.settings.image.alt }}" width="200px" height="200px">
+              <img class="slide-quad--image image-two lazyload" src="{{ block.settings.image_2 | img_url: '200x'}}" data-src="{{ block.settings.image_2 | img_url: '200x'}}" alt="{{ block.settings.image_2.alt }}" width="200px" height="200px">
+              <img class="slide-quad--image image-three lazyload" src="{{ block.settings.image_3 | img_url: '200x'}}" data-src="{{ block.settings.image_3 | img_url: '200x'}}" alt="{{ block.settings.image_3.alt }}" width="200px" height="200px">
+              <img class="slide-quad--image image-four lazyload" src="{{ block.settings.image_4 | img_url: '200x'}}" data-src="{{ block.settings.image_4 | img_url: '200x'}}" alt="{{ block.settings.image_4.alt }}" width="200px" height="200px">
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "Life As Client",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "alt",
+      "label": "Use alternate section color"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Large Image Slide",
+      "type": "large-image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "name": "Quad Image Slide",
+      "type": "quad-image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Image 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_4",
+          "label": "Image 4"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "[Custom] Life as Sprinly Client",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

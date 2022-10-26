@@ -1,0 +1,265 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+<script>
+{ //scope
+  const api_url = `https://graph.facebook.com/v14.0/{{ shop.metafields.facebook.pixel_id.value }}/events?access_token={{ shop.metafields.facebook.pixel_access_token.value }}`;
+  let customerEmail = localStorage.getItem('customerEmail');
+  let ip = '';
+  localStorage.setItem("fb_pixel_id","{{ shop.metafields.facebook.pixel_id.value }}");
+  localStorage.setItem("fb_pixel_access_token","{{ shop.metafields.facebook.pixel_access_token.value }}");
+  $(function() {
+    $.getJSON("https://api.ipify.org?format=jsonp&callback=?",
+      function(json) {
+        ip = json.ip;
+      }
+    );
+  });
+  if (customerEmail == undefined || customerEmail == null || customerEmail == '') {
+    customerEmail = sha256('customer@sprinly.com')
+  } else {
+    customerEmail = sha256(customerEmail)
+  }
+  async function postData(url = '', data = {}) {
+    const response = await fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify(data) // body data type must match "Content-Type" header
+    });
+    return response.json(); // parses JSON response into native JavaScript objects
+  }
+  
+  {% if template contains 'plans' %}
+    const total = $('span[data-cart-subtotal]').text().substring(1) * 1.00;
+    const payload_cart = {
+      "data": [
+        {
+          "event_name": "AddToCart",
+          "event_time": Math.floor(Date.now() / 1000),
+          "action_source": "website",
+          "user_data": {
+            "em": [
+              customerEmail
+            ],
+            "client_ip_address": ip,
+            "client_user_agent": null
+          },
+          "custom_data": {
+            "currency": "USD",
+            "value": total
+          }
+        }
+      ]
+    }
+    postData(api_url, payload_cart)
+      .then(data => {
+        console.log(data);
+      });
+  {% else %}
+    const payload_view = {
+      "data": [
+          {
+              "event_name": "PageView",
+              "event_time": Math.floor(Date.now() / 1000),
+              "action_source": "website",
+              "user_data": {
+                "em": [
+                  customerEmail
+                ],
+                "client_ip_address": ip,
+                "client_user_agent": null
+              }
+          }
+      ]
+    }
+    postData(api_url, payload_view)
+      .then(data => {
+        console.log(data);
+      });
+  {% endif %}
+  {% if template contains 'menus' %}
+    const payload_menu = {
+      "data": [
+          {
+            "event_name": "ViewContent",
+            "event_time": Math.floor(Date.now() / 1000),
+            "action_source": "website",
+            "user_data": {
+              "em": [
+                customerEmail
+              ],
+              "client_ip_address": ip,
+              "client_user_agent": null
+            },
+            "custom_data": {
+              "content_type": "menu"
+            }
+          }
+      ]
+    }
+    postData(api_url, payload_menu)
+      .then(data => {
+        console.log(data);
+      });
+  {% endif %}
+  $(document).on('click', 'div[data-bs-toggle="modal"]', function () {
+    const content_name = $(this).find('.product-title > h3').text();
+    const payload_view_content = {
+      "data": [
+          {
+            "event_name": "ViewContent",
+            "event_time": Math.floor(Date.now() / 1000),
+            "action_source": "website",
+            "user_data": {
+              "em": [
+                customerEmail
+              ],
+              "client_ip_address": ip,
+              "client_user_agent": null
+            },
+            "custom_data": {
+              "content_type": "menu",
+              "content_name": content_name
+            }
+          }
+      ]
+    }
+    postData(api_url, payload_view_content)
+      .then(data => {
+        console.log(data);
+      });
+    const payload_lead = {
+      "data": [
+          {
+            "event_name": "Lead",
+            "event_time": Math.floor(Date.now() / 1000),
+            "action_source": "website",
+            "user_data": {
+              "em": [
+                customerEmail
+              ],
+              "client_ip_address": ip,
+              "client_user_agent": null
+            },
+            "custom_data": {
+              "content_type": "menu",
+              "content_name": content_name
+            }
+          }
+      ]
+    }
+    postData(api_url, payload_lead)
+      .then(data => {
+        console.log(data);
+      });
+  });
+  $(document).on('click', '.GiftWizard-gift-button', function () {
+    const payload_view_content = {
+      "data": [
+          {
+            "event_name": "ViewContent",
+            "event_time": Math.floor(Date.now() / 1000),
+            "action_source": "website",
+            "user_data": {
+              "em": [
+                customerEmail
+              ],
+              "client_ip_address": ip,
+              "client_user_agent": null
+            },
+            "custom_data": {
+              "content_type": "send gift"
+            }
+          }
+      ]
+    }
+    postData(api_url, payload_view_content)
+      .then(data => {
+        console.log(data);
+      });
+  })
+  function sendLead(event) {
+    event.preventDefault();
+    const payload_lead = {
+      "data": [
+          {
+            "event_name": "Lead",
+            "event_time": Math.floor(Date.now() / 1000),
+            "action_source": "website",
+            "user_data": {
+              "em": [
+                customerEmail
+              ],
+              "client_ip_address": ip,
+              "client_user_agent": null
+            },
+            "custom_data": {
+              "content_type": "menu",
+              "content_name": content_name
+            }
+          }
+      ]
+    }
+    postData(api_url, payload_lead)
+      .then(data => {
+        console.log(data);
+      });
+  }
+  $(document).on('click', 'button.add-to-cart', function () {
+    let product = $('.variant-dropdown').val()
+    const payload_add_to_cart = {
+      "data": [
+        {
+          "event_name": "AddToCart",
+          "event_time": Math.floor(Date.now() / 1000),
+          "action_source": "website",
+          "user_data": {
+            "em": [
+              customerEmail
+            ],
+            "client_ip_address": ip,
+            "client_user_agent": null
+          },
+          "custom_data": {
+            "currency": "USD",
+            "content_name": product
+          }
+        }
+      ]
+    }
+    postData(api_url, payload_cart)
+      .then(data => {
+        console.log(data);
+      });
+  });
+  {% if template contains 'email' %}
+  const payload_lead_email = {
+      "data": [
+          {
+            "event_name": "Lead",
+            "event_time": Math.floor(Date.now() / 1000),
+            "action_source": "website",
+            "user_data": {
+              "em": [
+                customerEmail
+              ],
+              "client_ip_address": ip,
+              "client_user_agent": null
+            },
+            "custom_data": {
+              "content_type": "menu",
+              "content_name": content_name
+            }
+          }
+      ]
+    }
+    postData(api_url, payload_lead_email)
+      .then(data => {
+        console.log(data);
+      });
+  {% endif %}
+}
+</script>

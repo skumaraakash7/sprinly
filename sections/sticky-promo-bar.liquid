@@ -1,0 +1,23 @@
+<div class="sticky-promo-bar">
+  <!--<a class="btn {% if customer %}customer-exists{% endif %}" href="{{ section.settings.promo_button_link }}">{%if template contains 'menus'%}Choose My Plan{%else%}{{ section.settings.promo_button_text }}{%endif%}</a>-->
+  <a class="btn {% if customer %}customer-exists{% endif %}" href="{{ section.settings.promo_button_link }}">Choose My Plan</a>
+</div>
+{% schema %}
+  {
+    "name": "Sticky Promo Bar",
+    "settings": [
+      {
+        "type": "text",
+        "id": "promo_button_text",
+        "label": "Promo Button Text",
+        "default": "Get Started"
+      },
+      {
+        "type": "url",
+        "id": "promo_button_link",
+        "label": "Promo Button Link"
+      }
+    ]
+  }
+{% endschema %}
+

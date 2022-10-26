@@ -1,0 +1,81 @@
+{%- if section.settings.title -%}
+  <div class="section-title text-center page-width">
+    <p class="h3">
+      {{ section.settings.title }}
+    </p>
+  </div>
+{%- endif -%}
+<div class="non-profit-donations__inner non-profit--slideshow" data-slick='{"autoplaySpeed": {{ section.settings.speed }}}'>
+    {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+        <div class="non-profit--slideshow-item">
+            <div class="non-profit-donations__item">
+                {%- assign img_url = block.settings.logo | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                <img class="lazyload"
+                    data-src="{{ img_url }}"
+                    data-widths="[180, 360, 540, 750]"
+                    data-aspectratio="{{ block.settings.logo.aspect_ratio }}"
+                    data-sizes="auto"
+                    alt="{{ block.settings.logo.alt }}">
+
+                    {%- if block.settings.copy != blank -%}
+                        <p>
+                            {{ block.settings.copy }}
+                        </p>
+                    {%- endif -%}
+            </div>
+        </div>
+        {%- endfor -%}
+    {%- endif -%}
+</div>
+
+{% schema %}
+{
+    "name": "Non-Profit Donations",
+    "class": "non-profit-donations",
+    "settings": [
+        {
+            "id": "title",
+            "type": "text",
+            "label": "Title",
+            "default": "Non-Profit Donations Headline"
+        },
+        {
+            "id": "speed",
+            "type": "select",
+            "label": "Slider speed",
+            "options": [
+                { "value": "2000", "label": "2 seconds"},
+                { "value": "3000", "label": "3 seconds"},
+                { "value": "4000", "label": "4 seconds"},
+                { "value": "5000", "label": "5 seconds"},
+                { "value": "6000", "label": "6 seconds"},
+                { "value": "7000", "label": "7 seconds"},
+                { "value": "8000", "label": "8 seconds"},
+                { "value": "9000", "label": "9 seconds"},
+                { "value": "10000", "label": "10 seconds"}
+            ],
+            "default": "5000",
+            "info": "Select slider speed"
+        }
+    ],
+    "blocks": [
+        {
+            "type": "nonprofit",
+            "name": "Non Profit",
+            "settings": [
+                {
+                    "id": "logo",
+                    "type": "image_picker",
+                    "label": "Logo"
+                },
+                {
+                    "id": "copy",
+                    "type": "text",
+                    "label": "Text"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}
